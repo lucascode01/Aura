@@ -1,11 +1,8 @@
 INÍCIO: Qual é o nível hierárquico do funcionário?
 │
-├──► NÍVEL 1 — CEO / FUNDADOR
-│         └── É o dono e responsável máximo da empresa?
-│               ├── SIM → Atribuir entre 25% e 40%
-│               └── NÃO → Reclassificar para Nível 2
+├──► NÍVEL 1 — CAIXA - 25%
 │
-├──► NÍVEL 2 — DIRETORES / SÓCIOS
+├──► NÍVEL 2 — DIRETORES / SÓCIOS ()
 │         └── Tem poder de decisão estratégica?
 │               ├── SIM → Tem participação societária?
 │               │           ├── SIM → Atribuir entre 8% e 15%
@@ -23,3 +20,6 @@ INÍCIO: Qual é o nível hierárquico do funcionário?
           └── Tem mais de 1 ano de empresa?
                 ├── SIM → Atribuir entre 1,5% e 3%
                 └── NÃO → Atribuir entre 0,5% e 1,5%
+
+
+                
