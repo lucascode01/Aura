@@ -2,4 +2,5 @@ arvore-decisao-lucros.md
 aura.md
 bible.txt
 README.md
-/Photos
+Photos/
+.DS_Store
