@@ -198,5 +198,46 @@
 <link fetchpriority="low" href="https://framerusercontent.com/sites/6kX4AlDbixpul7SmA66AMv/react.DSseAeXq.mjs" rel="modulepreload"/><link fetchpriority="low" href="https://framerusercontent.com/sites/6kX4AlDbixpul7SmA66AMv/rolldown-runtime.CcuScYSb.mjs" rel="modulepreload"/><link fetchpriority="low" href="https://framerusercontent.com/sites/6kX4AlDbixpul7SmA66AMv/framer.CXd7JV6E.mjs" rel="modulepreload"/><link fetchpriority="low" href="https://framerusercontent.com/sites/6kX4AlDbixpul7SmA66AMv/motion.ZnirA4oO.mjs" rel="modulepreload"/><link fetchpriority="low" href="https://framerusercontent.com/sites/6kX4AlDbixpul7SmA66AMv/hy3epNC7txJlT-QBm1_b81A-jXjkSagqM5Q9FpgkAyY.CfcKVYeL.mjs" rel="modulepreload"/><link fetchpriority="low" href="https://framerusercontent.com/sites/6kX4AlDbixpul7SmA66AMv/shared-lib.DxlNL0Ru.mjs" rel="modulepreload"/><link fetchpriority="low" href="https://framerusercontent.com/sites/6kX4AlDbixpul7SmA66AMv/tAU8hAZZK.BCU9Cesd.mjs" rel="modulepreload"/><link fetchpriority="low" href="https://framerusercontent.com/sites/6kX4AlDbixpul7SmA66AMv/Q5CZcxuFO.yy_8NayD.mjs" rel="modulepreload"/><link fetchpriority="low" href="https://framerusercontent.com/sites/6kX4AlDbixpul7SmA66AMv/ukoXPr8VN.2DpRZ2_2.mjs" rel="modulepreload"/><link fetchpriority="low" href="https://framerusercontent.com/sites/6kX4AlDbixpul7SmA66AMv/augiA20Il.TEeBg1RI.mjs" rel="modulepreload"/><link fetchpriority="low" href="https://framerusercontent.com/sites/6kX4AlDbixpul7SmA66AMv/yoco0NHMS.C0iyjuBr.mjs" rel="modulepreload"/><script async="" data-framer-bundle="main" fetchpriority="low" src="https://framerusercontent.com/sites/6kX4AlDbixpul7SmA66AMv/script_main.BFgylFVQ.mjs" type="module"></script>
 <!-- Start of bodyEnd -->
 <!-- End of bodyEnd -->
+<script id="content-patch">
+/* O conteúdo é renderizado pelo runtime do Framer (não está no HTML estático).
+   Este patch substitui o nome e a foto no DOM após a renderização. */
+(function () {
+  var OLD_NAME = "Isabela Hughes";
+  var NEW_NAME = "Gabriel Silveira";
+  var NEW_PHOTO = "/Photos/gabriel.jpeg";
+
+  function patch() {
+    if (!document.body) return false;
+    var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null);
+    var node, target = null;
+    while ((node = walker.nextNode())) {
+      if (node.nodeValue && node.nodeValue.indexOf(OLD_NAME) > -1) { target = node; break; }
+    }
+    if (!target) return false;
+    target.nodeValue = target.nodeValue.replace(OLD_NAME, NEW_NAME);
+    // Sobe até o card e troca a primeira imagem encontrada
+    var card = target.parentElement, hops = 0;
+    while (card && hops < 8) {
+      var img = card.querySelector("img");
+      if (img) {
+        img.removeAttribute("srcset");
+        img.src = NEW_PHOTO;
+        var pic = img.closest && img.closest("picture");
+        if (pic) pic.querySelectorAll("source").forEach(function (s) { s.remove(); });
+        break;
+      }
+      card = card.parentElement; hops++;
+    }
+    return true;
+  }
+
+  var tries = 0;
+  var iv = setInterval(function () { if (patch() || ++tries > 60) clearInterval(iv); }, 200);
+  try {
+    new MutationObserver(function () { patch(); }).observe(document.body, { childList: true, subtree: true });
+  } catch (e) {}
+  window.addEventListener("load", patch);
+})();
+</script>
 </body>
 </html>
