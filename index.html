@@ -200,14 +200,37 @@
 <!-- End of bodyEnd -->
 <script id="content-patch">
 /* O conteúdo é renderizado pelo runtime do Framer (não está no HTML estático).
-   Este patch substitui o nome e a foto no DOM após a renderização. */
+   Este patch, após a renderização, ajusta o DOM:
+   1) troca o nome e a foto de um card;
+   2) traduz os labels da navbar mobile (que ficaram em inglês). */
 (function () {
   var OLD_NAME = "Isabela Hughes";
   var NEW_NAME = "Gabriel Silveira";
   var NEW_PHOTO = "/Photos/gabriel.jpeg";
 
-  function patch() {
-    if (!document.body) return false;
+  // Labels da navbar mobile em inglês -> português (comparação exata, texto aparado)
+  var NAV = {
+    "Home": "Início",
+    "About": "Sobre",
+    "Portfolio": "Portfólio",
+    "Contact": "Contato",
+    "Get In Touch": "Entre Em Contato"
+  };
+
+  function translateNav() {
+    var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null);
+    var node;
+    while ((node = walker.nextNode())) {
+      var t = node.nodeValue;
+      if (!t) continue;
+      var trimmed = t.trim();
+      if (NAV.hasOwnProperty(trimmed)) {
+        node.nodeValue = t.replace(trimmed, NAV[trimmed]);
+      }
+    }
+  }
+
+  function patchPerson() {
     var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null);
     var node, target = null;
     while ((node = walker.nextNode())) {
@@ -215,7 +238,6 @@
     }
     if (!target) return false;
     target.nodeValue = target.nodeValue.replace(OLD_NAME, NEW_NAME);
-    // Sobe até o card e troca a primeira imagem encontrada
     var card = target.parentElement, hops = 0;
     while (card && hops < 8) {
       var img = card.querySelector("img");
@@ -231,10 +253,17 @@
     return true;
   }
 
+  function patch() {
+    if (!document.body) return;
+    translateNav();
+    patchPerson();
+  }
+
+  patch();
   var tries = 0;
-  var iv = setInterval(function () { if (patch() || ++tries > 60) clearInterval(iv); }, 200);
+  var iv = setInterval(function () { patch(); if (++tries > 60) clearInterval(iv); }, 200);
   try {
-    new MutationObserver(function () { patch(); }).observe(document.body, { childList: true, subtree: true });
+    new MutationObserver(patch).observe(document.body, { childList: true, subtree: true });
   } catch (e) {}
   window.addEventListener("load", patch);
 })();
