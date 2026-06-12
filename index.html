@@ -168,6 +168,22 @@
   }
 }
 </style>
+<script id="force-title-fix">
+/* O runtime do Framer reescreve o document.title com o nome antigo da página ("Landing").
+   Este observer força o título correto sempre que ele for alterado. */
+(function () {
+  var desired = "Aura Software — Desenvolvimento de Sites e Sistemas";
+  function fix() { if (document.title !== desired) document.title = desired; }
+  fix();
+  try {
+    new MutationObserver(fix).observe(document.head, {
+      childList: true, subtree: true, characterData: true
+    });
+  } catch (e) {}
+  document.addEventListener("DOMContentLoaded", fix);
+  window.addEventListener("load", fix);
+})();
+</script>
 </head>
 <body>
 <script async="" data-fid="cabc6a0cabc12e14ad499659fa7f2f3d858f53a8375bc3df9d559b926e6b2572" data-no-nt="" src="https://events.framer.com/script?v=2"></script>
