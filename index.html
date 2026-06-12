@@ -266,6 +266,24 @@
     new MutationObserver(patch).observe(document.body, { childList: true, subtree: true });
   } catch (e) {}
   window.addEventListener("load", patch);
+
+  // Fecha o menu mobile ao clicar em qualquer link dentro dele.
+  // A navbar do Framer é persistente e fica no estado "aberto" após navegar;
+  // disparamos um clique no "Mobile Menu Icon" (o hambúrguer/X) para fechá-la.
+  document.addEventListener("click", function (e) {
+    var link = e.target.closest && e.target.closest("a");
+    if (!link) return;
+    var menu = link.closest('[data-framer-name="Menu"]');
+    if (!menu) return; // só age em links dentro do menu mobile aberto
+    var icon = menu.querySelector('[data-framer-name="Mobile Menu Icon"]')
+            || document.querySelector('[data-framer-name="Mobile Menu Icon"]');
+    // só fecha se o ícone existir e estiver visível (mobile)
+    if (icon && icon.offsetParent !== null) {
+      setTimeout(function () {
+        if (icon.offsetParent !== null) icon.click();
+      }, 120);
+    }
+  }, true);
 })();
 </script>
 </body>
