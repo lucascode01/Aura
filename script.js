@@ -259,11 +259,18 @@ window.addEventListener("resize", function () {
     var cx = r.left + r.width / 2;
     for (var i = 0; i < cards.length; i++) {
       var cr = cards[i].getBoundingClientRect();
-      var d = (cr.left + cr.width / 2 - cx) / (r.width / 2); // -1 (esq) .. 1 (dir)
-      var t = Math.min(Math.abs(d) * 1.25, 1);
-      cards[i].style.transform = "scale(" + (1 - 0.1 * t) + ")";
-      cards[i].style.opacity = 1 - 0.2 * t;
-      cards[i].style.transformOrigin = (d < 0 ? "100%" : "0%") + " 50%";
+      var ds = (cr.left + cr.width / 2 - cx) / step; // distância em "passos" (cards) a partir do centro
+      var c = Math.max(-1.6, Math.min(1.6, ds));     // limita o ângulo das laterais
+      var abs = Math.min(Math.abs(ds), 2);
+      var ry = -c * 38;                               // rotação em Y (coverflow)
+      var tz = -abs * 180;                            // laterais recuam em profundidade
+      var sc = 1 - Math.min(abs, 1) * 0.16;           // card central maior
+      var op = 1 - Math.min(abs, 1) * 0.45;           // laterais mais apagadas
+      cards[i].style.transform =
+        "translateZ(" + tz + "px) rotateY(" + ry + "deg) scale(" + sc + ")";
+      cards[i].style.opacity = op;
+      cards[i].style.transformOrigin = "50% 50%";
+      cards[i].style.zIndex = String(1000 - Math.round(abs * 100));
     }
   }
 
