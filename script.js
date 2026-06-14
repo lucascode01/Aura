@@ -198,39 +198,35 @@ window.addEventListener("resize", function () {
   })();
 })();
 
-// ===== Carrossel 3D — vitrine giratória (anel/cilindro), arrastável com inércia =====
+// ===== Carrossel — esteira horizontal contínua e linear (velocidade constante) =====
 (function () {
   var car = document.getElementById("svcCarousel");
   if (!car) return;
-  var stage = car.querySelector(".bcar-track");
-  var base = Array.prototype.slice.call(stage.children);
+  var track = car.querySelector(".bcar-track");
+  var base = Array.prototype.slice.call(track.children);
   if (!base.length) return;
   var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  // duplica o conjunto base até ter pelo menos 6 cards (anel mais cheio)
-  while (stage.children.length < 6) {
-    base.forEach(function (c) { stage.appendChild(c.cloneNode(true)); });
-  }
-  var cards = Array.prototype.slice.call(stage.children);
-  var N = cards.length;
-  var angleStep = 360 / N;
-
-  // distribui os cards ao redor do cilindro
-  var radius = 0;
-  function layout() {
-    var w = cards[0].offsetWidth || stage.offsetWidth;
-    radius = Math.round((w / 2) / Math.tan(Math.PI / N)) + 70; // folga entre os cards
-    for (var i = 0; i < N; i++) {
-      cards[i].__rot = angleStep * i;
-      cards[i].style.transform =
-        "rotateY(" + cards[i].__rot + "deg) translateZ(" + radius + "px)";
+  // clona o conjunto base até cobrir 2x a largura visível (loop sem buracos)
+  function ensureCopies() {
+    var need = car.clientWidth * 2 + 1200, guard = 0;
+    while (track.scrollWidth < need && guard < 30) {
+      base.forEach(function (c) { track.appendChild(c.cloneNode(true)); });
+      guard++;
     }
   }
-  layout();
+  ensureCopies();
 
-  var rotY = 0, vel = 0;
+  var setW = 0;
+  function measure() {
+    var cards = track.children;
+    setW = cards[base.length].offsetLeft - cards[0].offsetLeft; // largura de 1 conjunto
+  }
+  measure();
+
+  var offset = 0, vel = 0;
+  var SPEED = 1.0; // px por frame — rolagem linear de velocidade constante
   var dragging = false, lastX = 0, paused = false;
-  var AUTO = 0.22; // velocidade do giro automático (graus/frame)
 
   car.addEventListener("pointerdown", function (e) {
     dragging = true; lastX = e.clientX; vel = 0; car.classList.add("grabbing");
@@ -239,8 +235,7 @@ window.addEventListener("resize", function () {
   car.addEventListener("pointermove", function (e) {
     if (!dragging) return;
     var dx = e.clientX - lastX; lastX = e.clientX;
-    vel = dx * 0.25;          // guarda a velocidade para a inércia ao soltar
-    rotY += vel;
+    offset += dx; vel = dx; // arrasta junto e guarda velocidade p/ inércia
   });
   function endDrag() {
     if (!dragging) return;
@@ -253,20 +248,15 @@ window.addEventListener("resize", function () {
 
   function frame() {
     if (!dragging) {
-      if (Math.abs(vel) > 0.02) { rotY += vel; vel *= 0.94; } // inércia do arrasto
+      if (Math.abs(vel) > 0.1) { offset += vel; vel *= 0.92; } // inércia do arrasto
       else { vel = 0; }
-      if (!paused && !reduce) rotY -= AUTO;                   // giro contínuo da vitrine
+      if (!paused && !reduce) offset -= SPEED;                 // esteira linear contínua
     }
-    stage.style.transform = "translateZ(-" + radius + "px) rotateY(" + rotY + "deg)";
-    // fade suave: o card some ANTES de virar de lado (sem "pop"), giro uniforme
-    for (var i = 0; i < N; i++) {
-      var a = ((cards[i].__rot + rotY) % 360 + 360) % 360; // 0 = de frente
-      var face = Math.cos(a * Math.PI / 180);              // 1 frente .. -1 costas
-      var vis = Math.max(0, Math.min(1, (face - 0.12) / 0.88)); // 1 de frente → 0 já apagado antes dos 90°
-      cards[i].style.opacity = vis.toFixed(3);
-      cards[i].style.filter = "brightness(" + (0.55 + 0.45 * vis).toFixed(3) + ")";
-      cards[i].style.zIndex = String(Math.round(face * 100) + 200);
+    if (setW > 0) {
+      while (offset <= -setW) offset += setW; // loop contínuo, sem salto visível
+      while (offset > 0) offset -= setW;
     }
+    track.style.transform = "translateX(" + offset + "px)";
     requestAnimationFrame(frame);
   }
   requestAnimationFrame(frame);
@@ -274,7 +264,7 @@ window.addEventListener("resize", function () {
   var rt;
   window.addEventListener("resize", function () {
     clearTimeout(rt);
-    rt = setTimeout(layout, 200);
+    rt = setTimeout(function () { ensureCopies(); measure(); }, 200);
   });
 })();
 
