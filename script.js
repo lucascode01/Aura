@@ -260,17 +260,19 @@ window.addEventListener("resize", function () {
     for (var i = 0; i < cards.length; i++) {
       var cr = cards[i].getBoundingClientRect();
       var ds = (cr.left + cr.width / 2 - cx) / step; // distância em "passos" (cards) a partir do centro
-      var c = Math.max(-1.6, Math.min(1.6, ds));     // limita o ângulo das laterais
-      var abs = Math.min(Math.abs(ds), 2);
-      var ry = -c * 38;                               // rotação em Y (coverflow)
-      var tz = -abs * 180;                            // laterais recuam em profundidade
-      var sc = 1 - Math.min(abs, 1) * 0.16;           // card central maior
-      var op = 1 - Math.min(abs, 1) * 0.45;           // laterais mais apagadas
+      var sign = ds < 0 ? -1 : 1;
+      var abs = Math.abs(ds);
+      var a = Math.min(abs, 2.5);
+      var ry = -sign * Math.min(abs, 2) * 60;         // rotação forte em Y (coverflow agressivo)
+      var tz = -a * 320;                              // laterais mergulham fundo na profundidade
+      var tx = -sign * Math.min(abs, 2) * 90;         // puxa as laterais pra dentro → leque sobreposto
+      var sc = Math.max(1 - abs * 0.18, 0.55);        // central bem maior; laterais encolhem
+      var op = Math.max(1 - abs * 0.5, 0.12);         // laterais bem mais apagadas
       cards[i].style.transform =
-        "translateZ(" + tz + "px) rotateY(" + ry + "deg) scale(" + sc + ")";
+        "translateX(" + tx + "px) translateZ(" + tz + "px) rotateY(" + ry + "deg) scale(" + sc + ")";
       cards[i].style.opacity = op;
       cards[i].style.transformOrigin = "50% 50%";
-      cards[i].style.zIndex = String(1000 - Math.round(abs * 100));
+      cards[i].style.zIndex = String(1000 - Math.round(a * 100));
     }
   }
 
