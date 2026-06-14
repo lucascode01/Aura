@@ -198,103 +198,83 @@ window.addEventListener("resize", function () {
   })();
 })();
 
-// ===== Carrossel de serviços (ticker com foco central, arrastável) — réplica do Framer =====
+// ===== Carrossel 3D — vitrine giratória (anel/cilindro), arrastável com inércia =====
 (function () {
   var car = document.getElementById("svcCarousel");
   if (!car) return;
-  var track = car.querySelector(".bcar-track");
-  var base = Array.prototype.slice.call(track.children);
+  var stage = car.querySelector(".bcar-track");
+  var base = Array.prototype.slice.call(stage.children);
   if (!base.length) return;
   var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  // clona o conjunto até cobrir 2x a largura visível (loop sem buracos)
-  function ensureCopies() {
-    var need = car.clientWidth * 2 + 1200;
-    var guard = 0;
-    while (track.scrollWidth < need && guard < 20) {
-      base.forEach(function (c) { track.appendChild(c.cloneNode(true)); });
-      guard++;
+  // duplica o conjunto base até ter pelo menos 6 cards (anel mais cheio)
+  while (stage.children.length < 6) {
+    base.forEach(function (c) { stage.appendChild(c.cloneNode(true)); });
+  }
+  var cards = Array.prototype.slice.call(stage.children);
+  var N = cards.length;
+  var angleStep = 360 / N;
+
+  // distribui os cards ao redor do cilindro
+  var radius = 0;
+  function layout() {
+    var w = cards[0].offsetWidth || stage.offsetWidth;
+    radius = Math.round((w / 2) / Math.tan(Math.PI / N)) + 70; // folga entre os cards
+    for (var i = 0; i < N; i++) {
+      cards[i].__rot = angleStep * i;
+      cards[i].style.transform =
+        "rotateY(" + cards[i].__rot + "deg) translateZ(" + radius + "px)";
     }
   }
-  ensureCopies();
+  layout();
 
-  var cards = Array.prototype.slice.call(track.children);
-  var step = 1, setW = 1, baseCenter = 0;
-  function measure() {
-    step = cards[1].offsetLeft - cards[0].offsetLeft;          // card + gap
-    setW = cards[base.length].offsetLeft - cards[0].offsetLeft; // 1 conjunto
-    baseCenter = car.clientWidth / 2 - cards[0].offsetWidth / 2; // offset que centraliza um card
-  }
-  measure();
-
-  var offset = baseCenter, target = baseCenter;
+  var rotY = 0, vel = 0;
   var dragging = false, lastX = 0, paused = false;
-
-  function snapTarget() { target = baseCenter - Math.round((baseCenter - offset) / step) * step; }
+  var AUTO = 0.22; // velocidade do giro automático (graus/frame)
 
   car.addEventListener("pointerdown", function (e) {
-    dragging = true; lastX = e.clientX; car.classList.add("grabbing");
+    dragging = true; lastX = e.clientX; vel = 0; car.classList.add("grabbing");
     try { car.setPointerCapture(e.pointerId); } catch (_) {}
   });
   car.addEventListener("pointermove", function (e) {
     if (!dragging) return;
-    offset += e.clientX - lastX; lastX = e.clientX; target = offset;
+    var dx = e.clientX - lastX; lastX = e.clientX;
+    vel = dx * 0.25;          // guarda a velocidade para a inércia ao soltar
+    rotY += vel;
   });
   function endDrag() {
     if (!dragging) return;
-    dragging = false; car.classList.remove("grabbing"); snapTarget();
+    dragging = false; car.classList.remove("grabbing");
   }
   car.addEventListener("pointerup", endDrag);
   car.addEventListener("pointercancel", endDrag);
   car.addEventListener("mouseenter", function () { paused = true; });
   car.addEventListener("mouseleave", function () { paused = false; });
 
-  // avança 1 card a cada 3s (glide suave até a próxima posição)
-  setInterval(function () {
-    if (!dragging && !paused && !reduce) target -= step;
-  }, 3000);
-
-  function applyFocus() {
-    var r = car.getBoundingClientRect();
-    var cx = r.left + r.width / 2;
-    for (var i = 0; i < cards.length; i++) {
-      var cr = cards[i].getBoundingClientRect();
-      var ds = (cr.left + cr.width / 2 - cx) / step; // distância em "passos" (cards) a partir do centro
-      var sign = ds < 0 ? -1 : 1;
-      var abs = Math.abs(ds);
-      var a = Math.min(abs, 2.5);
-      var ry = -sign * Math.min(abs, 2) * 60;         // rotação forte em Y (coverflow agressivo)
-      var tz = -a * 320;                              // laterais mergulham fundo na profundidade
-      var tx = -sign * Math.min(abs, 2) * 90;         // puxa as laterais pra dentro → leque sobreposto
-      var sc = Math.max(1 - abs * 0.18, 0.55);        // central bem maior; laterais encolhem
-      var op = Math.max(1 - abs * 0.5, 0.12);         // laterais bem mais apagadas
-      cards[i].style.transform =
-        "translateX(" + tx + "px) translateZ(" + tz + "px) rotateY(" + ry + "deg) scale(" + sc + ")";
-      cards[i].style.opacity = op;
-      cards[i].style.transformOrigin = "50% 50%";
-      cards[i].style.zIndex = String(1000 - Math.round(a * 100));
+  function frame() {
+    if (!dragging) {
+      if (Math.abs(vel) > 0.02) { rotY += vel; vel *= 0.94; } // inércia do arrasto
+      else { vel = 0; }
+      if (!paused && !reduce) rotY -= AUTO;                   // giro contínuo da vitrine
     }
+    stage.style.transform = "translateZ(-" + radius + "px) rotateY(" + rotY + "deg)";
+    // realça quem está de frente, escurece e recua quem vira pro fundo
+    for (var i = 0; i < N; i++) {
+      var a = ((cards[i].__rot + rotY) % 360 + 360) % 360; // 0 = de frente
+      var face = Math.cos(a * Math.PI / 180);              // 1 frente .. -1 costas
+      var t = face * 0.5 + 0.5;                            // 0..1
+      cards[i].style.opacity = (0.3 + 0.7 * t).toFixed(3);
+      cards[i].style.filter = "brightness(" + (0.6 + 0.4 * t).toFixed(3) + ")";
+      cards[i].style.zIndex = String(Math.round(face * 100) + 200);
+    }
+    requestAnimationFrame(frame);
   }
-
-  function loop() {
-    if (!dragging) offset += (target - offset) * 0.09; // glide com easing
-    // wrap contínuo (o conteúdo repete a cada setW → sem salto visível)
-    while (offset <= baseCenter - setW) { offset += setW; target += setW; }
-    while (offset > baseCenter) { offset -= setW; target -= setW; }
-    track.style.transform = "translateX(" + offset + "px)";
-    applyFocus();
-    requestAnimationFrame(loop);
-  }
-  requestAnimationFrame(loop);
+  requestAnimationFrame(frame);
 
   var rt;
   window.addEventListener("resize", function () {
     clearTimeout(rt);
-    rt = setTimeout(function () {
-      ensureCopies();
-      cards = Array.prototype.slice.call(track.children);
-      measure(); snapTarget();
-    }, 200);
+    rt = setTimeout(layout, 200);
   });
 })();
 
