@@ -258,13 +258,13 @@ window.addEventListener("resize", function () {
       if (!paused && !reduce) rotY -= AUTO;                   // giro contínuo da vitrine
     }
     stage.style.transform = "translateZ(-" + radius + "px) rotateY(" + rotY + "deg)";
-    // realça quem está de frente, escurece e recua quem vira pro fundo
+    // fade suave: o card some ANTES de virar de lado (sem "pop"), giro uniforme
     for (var i = 0; i < N; i++) {
       var a = ((cards[i].__rot + rotY) % 360 + 360) % 360; // 0 = de frente
       var face = Math.cos(a * Math.PI / 180);              // 1 frente .. -1 costas
-      var t = face * 0.5 + 0.5;                            // 0..1
-      cards[i].style.opacity = (0.3 + 0.7 * t).toFixed(3);
-      cards[i].style.filter = "brightness(" + (0.6 + 0.4 * t).toFixed(3) + ")";
+      var vis = Math.max(0, Math.min(1, (face - 0.12) / 0.88)); // 1 de frente → 0 já apagado antes dos 90°
+      cards[i].style.opacity = vis.toFixed(3);
+      cards[i].style.filter = "brightness(" + (0.55 + 0.45 * vis).toFixed(3) + ")";
       cards[i].style.zIndex = String(Math.round(face * 100) + 200);
     }
     requestAnimationFrame(frame);
