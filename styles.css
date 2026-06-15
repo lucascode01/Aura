@@ -560,6 +560,7 @@ footer {
   .tgrid { columns: 1; }
   .foot-top { grid-template-columns: 1fr 1fr; }
   .hero-bottom { flex-direction: column; align-items: flex-start; }
+  .bigproj { aspect-ratio: 16 / 11; }   /* leque: cards um pouco mais altos no tablet */
 }
 
 @media (max-width: 1180px) {
@@ -596,6 +597,7 @@ footer {
   .foot-top { grid-template-columns: 1fr; }
   .container { padding: 0 18px; }
   .photo-marquee img { height: 160px; }
+  .bigproj { aspect-ratio: 4 / 3; }   /* leque: cards mais altos ainda no celular */
 }
 
 /* ===================== SUBPÁGINAS (sobre / portfólio / contato) ===================== */
