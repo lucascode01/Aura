@@ -210,7 +210,13 @@ body.menu-open .hamburger span:nth-child(2) { transform: translate(-50%,-50%) ro
 .hero p + p { margin-top: 14px; }
 .hero-actions { display: flex; gap: 12px; margin-top: 34px; flex-wrap: wrap; }
 .hero-bottom { display: flex; align-items: flex-end; justify-content: space-between; gap: 40px; }
-.hero-strip { display: flex; align-items: center; gap: 60px; margin-top: 40px; position: relative; z-index: 1; }
+.hero-strip { display: flex; align-items: center; gap: 60px; margin-top: 40px; padding-top: 28px; position: relative; z-index: 1; }
+/* brilho azul muito sutil na divisa com o conteúdo acima */
+.hero-strip::before {
+  content: ""; position: absolute; top: 0; left: 0; right: 0; height: 1px; pointer-events: none;
+  background: linear-gradient(90deg, transparent, rgba(0,85,255,.35) 28%, rgba(150,190,255,.55) 50%, rgba(0,85,255,.35) 72%, transparent);
+  box-shadow: 0 0 14px rgba(0,85,255,.35);
+}
 .hero-strip .marquee { flex: 1; min-width: 0; padding: 20px 0; }
 .hero-strip .video-wrap { position: relative; flex: none; }
 .hero-strip .star { position: absolute; top: -110px; left: -60px; width: 150px; opacity: .8; pointer-events: none; }
@@ -235,26 +241,13 @@ body.menu-open .hamburger span:nth-child(2) { transform: translate(-50%,-50%) ro
 @keyframes marqueeScroll { to { transform: translateX(-50%); } }
 .marquee-track img { height: 34px; width: auto; opacity: .55; filter: grayscale(1) brightness(1.6); }
 
-/* Marquee de logos do hero — tiles 3D estilo coverflow */
-.brand-marquee { padding: 22px 0; perspective: 1100px;
+/* Marquee de logos do hero — réplica do Framer (80x80, gap 40, fade 30/70) */
+.brand-marquee { padding: 10px 0;
   -webkit-mask-image: linear-gradient(to right, transparent 0, #000 30%, #000 70%, transparent 100%);
           mask-image: linear-gradient(to right, transparent 0, #000 30%, #000 70%, transparent 100%);
 }
-.brand-marquee .marquee-track { gap: 44px; transform-style: preserve-3d; }
-.brand-marquee .marquee-track img {
-  height: 86px; width: 86px; opacity: 1; filter: none; object-fit: cover;
-  padding: 14px; border-radius: 20px;
-  border: 1px solid rgba(255,255,255,.10);
-  background: linear-gradient(150deg, rgba(255,255,255,.07), rgba(255,255,255,.012));
-  box-shadow: 0 16px 30px -10px rgba(0,0,0,.6), 0 0 0 1px rgba(0,85,255,.06), inset 0 1px 0 rgba(255,255,255,.10);
-  transform: rotateY(-24deg) rotateX(7deg);
-  transition: transform .45s cubic-bezier(.2,.6,.2,1), box-shadow .45s ease;
-  will-change: transform;
-}
-.brand-marquee .marquee-track img:hover {
-  transform: rotateY(0deg) rotateX(0deg) translateZ(26px);
-  box-shadow: 0 26px 50px -12px rgba(0,0,0,.7), 0 0 0 1px rgba(0,85,255,.25), inset 0 1px 0 rgba(255,255,255,.14);
-}
+.brand-marquee .marquee-track { gap: 40px; }
+.brand-marquee .marquee-track img { height: 80px; width: 80px; opacity: 1; filter: none; object-fit: cover; }
 
 .photo-marquee { padding: 10px 0; }
 .photo-marquee .marquee-track { gap: 22px; animation-duration: 45s; }
