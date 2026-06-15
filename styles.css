@@ -214,8 +214,8 @@ body.menu-open .hamburger span:nth-child(2) { transform: translate(-50%,-50%) ro
 /* brilho azul muito sutil na divisa com o conteúdo acima */
 .hero-strip::before {
   content: ""; position: absolute; top: 0; left: 0; right: 0; height: 1px; pointer-events: none;
-  background: linear-gradient(90deg, transparent, rgba(0,85,255,.35) 28%, rgba(150,190,255,.55) 50%, rgba(0,85,255,.35) 72%, transparent);
-  box-shadow: 0 0 14px rgba(0,85,255,.35);
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.35) 28%, rgba(255,255,255,.65) 50%, rgba(255,255,255,.35) 72%, transparent);
+  box-shadow: 0 0 14px rgba(255,255,255,.3);
 }
 .hero-strip .marquee { flex: 1; min-width: 0; padding: 20px 0; }
 .hero-strip .video-wrap { position: relative; flex: none; }
@@ -563,6 +563,7 @@ footer {
 @media (max-width: 900px) {
   .split-grid { grid-template-columns: 1fr; gap: 30px; }
   .split-grid.flip > .split-img { order: 0; }
+  .split-grid:not(.flip) > .split-body { order: -1; } /* "Sobre Aura": texto acima da foto no mobile */
   .feat-grid, .plans, .blob-grid, .tgrid { grid-template-columns: 1fr; }
   .processo-grid, .faq-grid, .services-grid { grid-template-columns: 1fr; gap: 30px; }
   .services-grid .side-img { position: static; }
