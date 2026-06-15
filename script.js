@@ -198,7 +198,7 @@ window.addEventListener("resize", function () {
   })();
 })();
 
-// ===== Carrossel — esteira horizontal contínua e linear (velocidade constante) =====
+// ===== Carrossel de serviços (ticker com foco central, arrastável) — réplica do Framer =====
 (function () {
   var car = document.getElementById("svcCarousel");
   if (!car) return;
@@ -207,64 +207,94 @@ window.addEventListener("resize", function () {
   if (!base.length) return;
   var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  // clona o conjunto base até cobrir 2x a largura visível (loop sem buracos)
+  // clona o conjunto até cobrir 2x a largura visível (loop sem buracos)
   function ensureCopies() {
-    var need = car.clientWidth * 2 + 1200, guard = 0;
-    while (track.scrollWidth < need && guard < 30) {
+    var need = car.clientWidth * 2 + 1200;
+    var guard = 0;
+    while (track.scrollWidth < need && guard < 20) {
       base.forEach(function (c) { track.appendChild(c.cloneNode(true)); });
       guard++;
     }
   }
   ensureCopies();
 
-  var setW = 0;
+  var cards = Array.prototype.slice.call(track.children);
+  var step = 1, setW = 1, baseCenter = 0;
   function measure() {
-    var cards = track.children;
-    setW = cards[base.length].offsetLeft - cards[0].offsetLeft; // largura de 1 conjunto
+    step = cards[1].offsetLeft - cards[0].offsetLeft;          // card + gap
+    setW = cards[base.length].offsetLeft - cards[0].offsetLeft; // 1 conjunto
+    baseCenter = car.clientWidth / 2 - cards[0].offsetWidth / 2; // offset que centraliza um card
   }
   measure();
 
-  var offset = 0, vel = 0;
-  var SPEED = 1.0; // px por frame — rolagem linear de velocidade constante
+  var offset = baseCenter, target = baseCenter;
   var dragging = false, lastX = 0, paused = false;
 
+  function snapTarget() { target = baseCenter - Math.round((baseCenter - offset) / step) * step; }
+
   car.addEventListener("pointerdown", function (e) {
-    dragging = true; lastX = e.clientX; vel = 0; car.classList.add("grabbing");
+    dragging = true; lastX = e.clientX; car.classList.add("grabbing");
     try { car.setPointerCapture(e.pointerId); } catch (_) {}
   });
   car.addEventListener("pointermove", function (e) {
     if (!dragging) return;
-    var dx = e.clientX - lastX; lastX = e.clientX;
-    offset += dx; vel = dx; // arrasta junto e guarda velocidade p/ inércia
+    offset += e.clientX - lastX; lastX = e.clientX; target = offset;
   });
   function endDrag() {
     if (!dragging) return;
-    dragging = false; car.classList.remove("grabbing");
+    dragging = false; car.classList.remove("grabbing"); snapTarget();
   }
   car.addEventListener("pointerup", endDrag);
   car.addEventListener("pointercancel", endDrag);
   car.addEventListener("mouseenter", function () { paused = true; });
   car.addEventListener("mouseleave", function () { paused = false; });
 
-  function frame() {
-    if (!dragging) {
-      if (Math.abs(vel) > 0.1) { offset += vel; vel *= 0.92; } // inércia do arrasto
-      else { vel = 0; }
-      if (!paused && !reduce) offset -= SPEED;                 // esteira linear contínua
+  // avança 1 card a cada 3s (glide suave até a próxima posição)
+  setInterval(function () {
+    if (!dragging && !paused && !reduce) target -= step;
+  }, 3000);
+
+  function applyFocus() {
+    var r = car.getBoundingClientRect();
+    var cx = r.left + r.width / 2;
+    for (var i = 0; i < cards.length; i++) {
+      var cr = cards[i].getBoundingClientRect();
+      var ds = (cr.left + cr.width / 2 - cx) / step; // distância em "passos" (cards) a partir do centro
+      var sign = ds < 0 ? -1 : 1;
+      var abs = Math.abs(ds);
+      var a = Math.min(abs, 2.5);
+      var ry = -sign * Math.min(abs, 2) * 60;         // rotação forte em Y (coverflow agressivo)
+      var tz = -a * 320;                              // laterais mergulham fundo na profundidade
+      var tx = -sign * Math.min(abs, 2) * 90;         // puxa as laterais pra dentro → leque sobreposto
+      var sc = Math.max(1 - abs * 0.18, 0.55);        // central bem maior; laterais encolhem
+      var op = Math.max(1 - abs * 0.5, 0.12);         // laterais bem mais apagadas
+      cards[i].style.transform =
+        "translateX(" + tx + "px) translateZ(" + tz + "px) rotateY(" + ry + "deg) scale(" + sc + ")";
+      cards[i].style.opacity = op;
+      cards[i].style.transformOrigin = "50% 50%";
+      cards[i].style.zIndex = String(1000 - Math.round(a * 100));
     }
-    if (setW > 0) {
-      while (offset <= -setW) offset += setW; // loop contínuo, sem salto visível
-      while (offset > 0) offset -= setW;
-    }
-    track.style.transform = "translateX(" + offset + "px)";
-    requestAnimationFrame(frame);
   }
-  requestAnimationFrame(frame);
+
+  function loop() {
+    if (!dragging) offset += (target - offset) * 0.09; // glide com easing
+    // wrap contínuo (o conteúdo repete a cada setW → sem salto visível)
+    while (offset <= baseCenter - setW) { offset += setW; target += setW; }
+    while (offset > baseCenter) { offset -= setW; target -= setW; }
+    track.style.transform = "translateX(" + offset + "px)";
+    applyFocus();
+    requestAnimationFrame(loop);
+  }
+  requestAnimationFrame(loop);
 
   var rt;
   window.addEventListener("resize", function () {
     clearTimeout(rt);
-    rt = setTimeout(function () { ensureCopies(); measure(); }, 200);
+    rt = setTimeout(function () {
+      ensureCopies();
+      cards = Array.prototype.slice.call(track.children);
+      measure(); snapTarget();
+    }, 200);
   });
 })();
 
@@ -285,3 +315,26 @@ document.querySelectorAll(".faq-item").forEach(function (item) {
     }
   });
 });
+
+// ===== Hero: blur azul ambiente em deriva lenta (estilo Framer) =====
+(function () {
+  // cada blob tem seu próprio ritmo/fase para um movimento orgânico e dessincronizado
+  var blobs = [
+    { el: document.getElementById("heroGlow"),  ax: 90, ay: 70, fx: 0.05, fy: 0.037, fs: 0.043, sc: 0.10, ph: 0 },
+    { el: document.getElementById("heroGlow2"), ax: 70, ay: 55, fx: 0.041, fy: 0.058, fs: 0.035, sc: 0.08, ph: 2.4 }
+  ].filter(function (b) { return b.el; });
+  if (!blobs.length) return;
+  var TAU = Math.PI * 2;
+  function frame(t) {
+    var e = t / 1000; // segundos
+    for (var i = 0; i < blobs.length; i++) {
+      var b = blobs[i];
+      var x = Math.sin(e * b.fx * TAU + b.ph) * b.ax;
+      var y = Math.cos(e * b.fy * TAU + b.ph) * b.ay;
+      var s = 1 + Math.sin(e * b.fs * TAU + b.ph) * b.sc;
+      b.el.style.transform = "translate(" + x + "px," + y + "px) scale(" + s + ")";
+    }
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+})();

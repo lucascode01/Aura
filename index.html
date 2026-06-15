@@ -18,10 +18,8 @@
 <meta property="og:image:height" content="630" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:image" content="https://aurasoftware.cloud/assets/og-image.png" />
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="styles.css?v=11" />
+<link rel="preload" href="assets/fonts/dmsans-latin.woff2" as="font" type="font/woff2" crossorigin />
+<link rel="stylesheet" href="styles.css?v=6" />
 </head>
 <body>
 
@@ -53,11 +51,9 @@
 
 <!-- ===================== HERO ===================== -->
 <section class="hero" id="inicio">
-  <div class="hero-bg" aria-hidden="true">
-    <span class="hero-glow hero-glow-1"></span>
-    <span class="hero-glow hero-glow-2"></span>
-    <span class="hero-glow hero-glow-3"></span>
-  </div>
+  <div class="hero-bg" aria-hidden="true"></div>
+  <div class="glow hero-glow" id="heroGlow" aria-hidden="true" style="width:520px;height:520px;top:38%;left:-40px;opacity:.85"></div>
+  <div class="glow hero-glow" id="heroGlow2" aria-hidden="true" style="width:440px;height:440px;top:-90px;right:6%;opacity:.6"></div>
   <div class="container hero-inner">
     <span class="hl-tag">
       <span class="hl-badge">NOVO</span>
@@ -103,7 +99,8 @@
       <div class="split-body">
         <span class="eyebrow">Sobre Aura</span>
         <h2>Construindo Marcas Mais Fortes <span class="dim">Criando impressões!</span></h2>
-        <p>Entregamos designs sob demanda de alta qualidade com precisão. Eleve sua marca sem esforço, um clique de cada vez.</p>
+        <p>Entregamos designs sob demanda de alta qualidade com precisão.</p>
+        <p>Eleve sua marca sem esforço, um clique de cada vez.</p>
         <ul class="check-list">
           <li>De R$ 0 a R$ 1.000.000 em vendas</li>
           <li>Crescimento de 47% em novos clientes.</li>
@@ -328,6 +325,7 @@
             <p>Desfrute da liberdade de enviar solicitações ilimitadas sem restrições. Seja para ajustes de design, estamos aqui para ajudá-lo em cada etapa.</p>
             <div class="actions">
               <a class="btn btn-primary" href="contato.html">Agende uma Consulta</a>
+              <a class="btn" href="sobre.html">O que é Aura?</a>
             </div>
           </div>
         </div>
@@ -342,7 +340,7 @@
           <div class="collage-card">
             <img class="photo" src="assets/img/collage-5.jpg" alt="Publicação rápida" />
             <div class="body">
-              <h3>Publicar em Segundos <span class="new">NEW</span></h3>
+              <h3>Publicar em Segundos</h3>
               <p>Publique seu site em segundos com nosso processo simplificado.</p>
             </div>
           </div>
@@ -376,6 +374,7 @@
       <span class="eyebrow">Portfólio</span>
       <h2>Nossos Projetos Selecionados <span class="dim">Isso Impulsiona Seu Site.</span></h2>
       <p>Explore nosso trabalho — colaborações com clientes visionários em diversos setores.</p>
+      <a class="btn btn-primary" href="portfolio.html" style="margin-top:28px">Ver Portfólio</a>
     </div>
     <div class="bigproj-list">
       <a class="bigproj" href="portfolio.html">
@@ -603,7 +602,7 @@
       <span class="eyebrow">Junte-se a Nós Agora</span>
       <h2 style="margin-top:22px">Cada Projeto que Realizamos<br/>é uma Oportunidade Única.</h2>
       <p>Pronto para dar o próximo passo? Junte-se a nós agora e comece a transformar sua visão em realidade com o apoio de especialistas.</p>
-      <a class="btn btn-light" href="contato.html">Agende uma Consulta</a>
+      <a class="btn btn-primary" href="contato.html">Agende uma Consulta</a>
     </div>
   </div>
 </section>
@@ -658,6 +657,6 @@
 <div class="view-cursor" id="viewCursor" aria-hidden="true">View Now</div>
 
 <script src="assets/lenis.min.js"></script>
-<script src="script.js?v=11"></script>
+<script src="script.js?v=6"></script>
 </body>
 </html>
