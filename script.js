@@ -78,20 +78,29 @@ window.addEventListener("resize", function () {
 (function () {
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-  // blocos inteiros que sobem juntos
-  var blocks = document.querySelectorAll(
-    ".section-head, .processo-head, .split-grid, .hero-strip, .cta-card, .collage-grid, .foot-top"
-  );
-  // itens de grid: revelam em cascata
-  var gridItems = document.querySelectorAll(
-    ".blob-grid > *, .feat-grid > *, .steps > .step, .tgrid > *, .plans > *, .tags > span, .faq-list > *, .stats > *"
-  );
-
-  blocks.forEach(function (el) { el.classList.add("reveal"); });
-  gridItems.forEach(function (el) {
+  function reveal(el, delay) {
     el.classList.add("reveal");
+    if (delay) el.style.setProperty("--reveal-delay", delay + "s");
+  }
+
+  // containers de texto: cada filho sobe em cascata (estilo Framer)
+  document.querySelectorAll(".hero-inner, .section-head, .processo-head, .split-body").forEach(function (c) {
+    Array.prototype.forEach.call(c.children, function (child, i) {
+      reveal(child, Math.min(i * 0.1, 0.6));
+    });
+  });
+
+  // blocos inteiros que sobem juntos
+  document.querySelectorAll(
+    ".split-img, .cta-card, .collage-grid, .foot-top, .processo-side"
+  ).forEach(function (el) { reveal(el, 0); });
+
+  // itens de grid: revelam em cascata pela ordem
+  document.querySelectorAll(
+    ".blob-grid > *, .feat-grid > *, .steps > .step, .tgrid > *, .plans > *, .tags > span, .faq-list > *, .stats > *"
+  ).forEach(function (el) {
     var i = Array.prototype.indexOf.call(el.parentElement.children, el);
-    el.style.setProperty("--reveal-delay", Math.min(i * 0.08, 0.5) + "s");
+    reveal(el, Math.min(i * 0.08, 0.5));
   });
 
   var io = new IntersectionObserver(
