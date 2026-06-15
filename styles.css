@@ -159,14 +159,63 @@ body.menu-open .hamburger span:nth-child(2) { bottom: 20px; transform: rotate(-4
 
 /* ===================== HERO ===================== */
 .hero { padding: 170px 0 30px; overflow: hidden; }
-/* Fundo do hero — glow azul em gradiente (réplica do site, sem vídeo/Framer) */
+/* Fundo do hero — glow azul animado (réplica viva do site) */
 .hero-bg {
   position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  overflow: hidden;
+  background: var(--bg);
+}
+/* base escura: mantém os cantos/baixo no preto pra luz azul "varrer" por cima */
+.hero-bg::before {
+  content: ""; position: absolute; inset: 0; z-index: 1;
   background:
-    radial-gradient(48% 42% at 64% 6%, rgba(40,120,255,.85) 0%, rgba(40,120,255,0) 60%),
-    radial-gradient(60% 55% at 40% -4%, rgba(0,90,255,.70) 0%, rgba(0,90,255,0) 58%),
-    radial-gradient(95% 80% at 55% -18%, rgba(0,55,190,.55) 0%, rgba(0,55,190,0) 62%),
-    var(--bg);
+    radial-gradient(120% 90% at 50% -30%, rgba(0,30,120,.45) 0%, rgba(0,0,0,0) 55%),
+    linear-gradient(180deg, rgba(0,0,0,0) 38%, var(--bg) 92%);
+  pointer-events: none;
+}
+.hero-glow {
+  position: absolute; border-radius: 50%;
+  will-change: transform, opacity;
+  mix-blend-mode: screen;
+}
+/* blob principal: faixa brilhante no topo que varre a largura toda */
+.hero-glow-1 {
+  width: 55vw; height: 55vh; top: -14vh; left: 22%;
+  background: radial-gradient(circle, rgba(40,130,255,1) 0%, rgba(20,90,255,.55) 35%, rgba(20,90,255,0) 65%);
+  filter: blur(60px);
+  animation: heroGlowSweep1 13s ease-in-out infinite;
+}
+/* blob secundário: atravessa na diagonal, cria o movimento visível contra o preto */
+.hero-glow-2 {
+  width: 42vw; height: 48vh; top: -6vh; left: 8%;
+  background: radial-gradient(circle, rgba(0,95,255,.9) 0%, rgba(0,75,215,0) 64%);
+  filter: blur(55px);
+  animation: heroGlowSweep2 17s ease-in-out infinite;
+}
+/* núcleo intenso e menor: ponto de luz nítido que viaja, deixa claro o movimento */
+.hero-glow-3 {
+  width: 26vw; height: 30vh; top: -2vh; left: 55%;
+  background: radial-gradient(circle, rgba(120,180,255,.95) 0%, rgba(40,120,255,0) 60%);
+  filter: blur(40px);
+  animation: heroGlowSweep3 11s ease-in-out infinite;
+}
+@keyframes heroGlowSweep1 {
+  0%   { transform: translate(-28vw, 0) scale(1); opacity: .85; }
+  50%  { transform: translate(26vw, 6vh) scale(1.35); opacity: 1; }
+  100% { transform: translate(-28vw, 0) scale(1); opacity: .85; }
+}
+@keyframes heroGlowSweep2 {
+  0%   { transform: translate(34vw, -2vh) scale(.9); opacity: .7; }
+  50%  { transform: translate(-22vw, 12vh) scale(1.3); opacity: 1; }
+  100% { transform: translate(34vw, -2vh) scale(.9); opacity: .7; }
+}
+@keyframes heroGlowSweep3 {
+  0%   { transform: translate(20vw, 0) scale(1); opacity: .9; }
+  50%  { transform: translate(-30vw, 8vh) scale(1.2); opacity: .5; }
+  100% { transform: translate(20vw, 0) scale(1); opacity: .9; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-glow { animation: none; }
 }
 .hero::after {
   content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 180px; z-index: 0;
@@ -234,19 +283,23 @@ body.menu-open .hamburger span:nth-child(2) { bottom: 20px; transform: rotate(-4
 
 /* ===================== SERVICE BLOBS ===================== */
 .services-blobs { padding: 60px 0; }
-/* Carrossel — esteira horizontal contínua e linear (velocidade constante) */
+/* Carrossel — esteira horizontal linear via animação CSS (velocidade 100% constante) */
 .bcar {
   position: relative; overflow: hidden;
   width: 100vw; margin-left: calc(50% - 50vw);
-  padding: 40px 0; cursor: grab; touch-action: pan-y;
+  padding: 40px 0;
 }
-.bcar.grabbing { cursor: grabbing; }
 .bcar-track {
-  display: flex; gap: 24px; width: max-content; will-change: transform;
+  display: flex; width: max-content; will-change: transform;
+  animation: bcarScroll 30s linear infinite; /* duração real é ajustada via JS */
+}
+@keyframes bcarScroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
 }
 .bcar-card {
   flex: 0 0 auto; width: clamp(300px, 32vw, 460px); aspect-ratio: 1;
-  user-select: none; will-change: transform;
+  margin-right: 24px; user-select: none;
 }
 .bcar-frame {
   width: 100%; height: 100%; background: transparent; padding: 0;
