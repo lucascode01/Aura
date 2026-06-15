@@ -194,7 +194,7 @@ body.menu-open .hamburger span:nth-child(2) { bottom: 20px; transform: rotate(-4
 /* glow estilo Framer: círculo azul sólido, blur enorme, brilho ambiente difuso */
 .hero-glow {
   background: #0055fe;
-  filter: blur(190px);
+  filter: blur(140px);
   border-radius: 50%;
 }
 .hero-inner { position: relative; z-index: 1; }

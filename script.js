@@ -320,8 +320,8 @@ document.querySelectorAll(".faq-item").forEach(function (item) {
 (function () {
   // cada blob tem seu próprio ritmo/fase para um movimento orgânico e dessincronizado
   var blobs = [
-    { el: document.getElementById("heroGlow"),  ax: 90, ay: 70, fx: 0.05, fy: 0.037, fs: 0.043, sc: 0.10, ph: 0 },
-    { el: document.getElementById("heroGlow2"), ax: 70, ay: 55, fx: 0.041, fy: 0.058, fs: 0.035, sc: 0.08, ph: 2.4 }
+    { el: document.getElementById("heroGlow"),  ax: 170, ay: 120, fx: 0.13, fy: 0.095, fs: 0.11, sc: 0.16, ph: 0 },
+    { el: document.getElementById("heroGlow2"), ax: 140, ay: 100, fx: 0.105, fy: 0.14, fs: 0.085, sc: 0.13, ph: 2.4 }
   ].filter(function (b) { return b.el; });
   if (!blobs.length) return;
   var TAU = Math.PI * 2;
