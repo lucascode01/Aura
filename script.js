@@ -263,11 +263,11 @@ window.addEventListener("resize", function () {
       var sign = ds < 0 ? -1 : 1;
       var abs = Math.abs(ds);
       var a = Math.min(abs, 2.5);
-      var ry = -sign * Math.min(abs, 2) * 60;         // rotação forte em Y (coverflow agressivo)
-      var tz = -a * 320;                              // laterais mergulham fundo na profundidade
-      var tx = -sign * Math.min(abs, 2) * 90;         // puxa as laterais pra dentro → leque sobreposto
-      var sc = Math.max(1 - abs * 0.18, 0.55);        // central bem maior; laterais encolhem
-      var op = Math.max(1 - abs * 0.5, 0.12);         // laterais bem mais apagadas
+      var ry = -sign * Math.min(abs, 2) * 62;         // rotação forte em Y (vitrine girando)
+      var tz = 60 - a * 440;                          // central avança; laterais mergulham bem fundo
+      var tx = -sign * Math.min(abs, 2) * 84;         // puxa as laterais pra dentro → leque sobreposto
+      var sc = Math.max(1 - abs * 0.16, 0.5);         // central maior; laterais encolhem
+      var op = Math.max(1 - abs * 0.46, 0.1);         // laterais bem mais apagadas (profundidade)
       cards[i].style.transform =
         "translateX(" + tx + "px) translateZ(" + tz + "px) rotateY(" + ry + "deg) scale(" + sc + ")";
       cards[i].style.opacity = op;

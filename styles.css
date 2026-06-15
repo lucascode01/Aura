@@ -262,8 +262,8 @@ body.menu-open .hamburger span:nth-child(2) { bottom: 20px; transform: rotate(-4
 .bcar {
   position: relative; overflow: hidden;
   width: 100vw; margin-left: calc(50% - 50vw);
-  padding: 70px 0; cursor: grab; touch-action: pan-y;
-  perspective: 1100px; perspective-origin: 50% 50%;
+  padding: 100px 0; cursor: grab; touch-action: pan-y;
+  perspective: 900px; perspective-origin: 50% 46%;
 }
 .bcar.grabbing { cursor: grabbing; }
 .bcar-track {
