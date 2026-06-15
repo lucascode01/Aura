@@ -198,7 +198,7 @@ window.addEventListener("resize", function () {
   })();
 })();
 
-// ===== Carrossel de serviços (ticker com foco central, arrastável) — réplica do Framer =====
+// ===== Carrossel 3D: cards orbitando um centro a um raio (vitrine giratória) =====
 (function () {
   var car = document.getElementById("svcCarousel");
   if (!car) return;
@@ -207,30 +207,37 @@ window.addEventListener("resize", function () {
   if (!base.length) return;
   var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  // clona o conjunto até cobrir 2x a largura visível (loop sem buracos)
-  function ensureCopies() {
-    var need = car.clientWidth * 2 + 1200;
-    var guard = 0;
-    while (track.scrollWidth < need && guard < 20) {
-      base.forEach(function (c) { track.appendChild(c.cloneNode(true)); });
-      guard++;
+  // distribui N cards igualmente ao redor do círculo (duplica os produtos base)
+  var N = base.length * Math.ceil(6 / base.length); // >= 6, múltiplo do nº de produtos
+  var step = 360 / N;                               // ângulo entre cards (graus)
+  track.innerHTML = "";
+  var cards = [];
+  for (var k = 0; k < N; k++) {
+    var clone = base[k % base.length].cloneNode(true);
+    track.appendChild(clone);
+    cards.push(clone);
+  }
+
+  var rot = 0;          // rotação atual do anel (graus)
+  var radius = 400;     // raio da órbita (px) — calculado em measure()
+  var speed = 10;       // graus por segundo (giro contínuo)
+  var faceFactor = 0.4; // quanto o card acompanha a curva: 0 = sempre de frente p/ tela, 1 = radial
+  var dragging = false, lastX = 0;
+
+  function measure() {
+    var w = cards[0].offsetWidth || 360;
+    var h = cards[0].offsetHeight || w;
+    // raio que espaça os cards no círculo sem sobreposição excessiva
+    radius = (w / 2) / Math.tan(Math.PI / N) * 1.12;
+    for (var i = 0; i < cards.length; i++) {
+      var c = cards[i];
+      c.style.position = "absolute";
+      c.style.left = "0"; c.style.top = "0";
+      c.style.marginLeft = (-w / 2) + "px";
+      c.style.marginTop = (-h / 2) + "px";
     }
   }
-  ensureCopies();
-
-  var cards = Array.prototype.slice.call(track.children);
-  var step = 1, setW = 1, baseCenter = 0;
-  function measure() {
-    step = cards[1].offsetLeft - cards[0].offsetLeft;          // card + gap
-    setW = cards[base.length].offsetLeft - cards[0].offsetLeft; // 1 conjunto
-    baseCenter = car.clientWidth / 2 - cards[0].offsetWidth / 2; // offset que centraliza um card
-  }
   measure();
-
-  var offset = baseCenter, target = baseCenter;
-  var dragging = false, lastX = 0, paused = false;
-
-  function snapTarget() { target = baseCenter - Math.round((baseCenter - offset) / step) * step; }
 
   car.addEventListener("pointerdown", function (e) {
     dragging = true; lastX = e.clientX; car.classList.add("grabbing");
@@ -238,51 +245,43 @@ window.addEventListener("resize", function () {
   });
   car.addEventListener("pointermove", function (e) {
     if (!dragging) return;
-    offset += e.clientX - lastX; lastX = e.clientX; target = offset;
+    rot += (e.clientX - lastX) * 0.25; // arrastar gira o anel
+    lastX = e.clientX;
   });
   function endDrag() {
     if (!dragging) return;
-    dragging = false; car.classList.remove("grabbing"); snapTarget();
+    dragging = false; car.classList.remove("grabbing");
   }
   car.addEventListener("pointerup", endDrag);
   car.addEventListener("pointercancel", endDrag);
-  car.addEventListener("mouseenter", function () { paused = true; });
-  car.addEventListener("mouseleave", function () { paused = false; });
 
-  // avança 1 card a cada 3s (glide suave até a próxima posição)
-  setInterval(function () {
-    if (!dragging && !paused && !reduce) target -= step;
-  }, 3000);
-
-  function applyFocus() {
-    var r = car.getBoundingClientRect();
-    var cx = r.left + r.width / 2;
+  function place() {
     for (var i = 0; i < cards.length; i++) {
-      var cr = cards[i].getBoundingClientRect();
-      var ds = (cr.left + cr.width / 2 - cx) / step; // distância em "passos" (cards) a partir do centro
-      var sign = ds < 0 ? -1 : 1;
-      var abs = Math.abs(ds);
-      var a = Math.min(abs, 2.5);
-      var ry = -sign * Math.min(abs, 2) * 62;         // rotação forte em Y (vitrine girando)
-      var tz = 60 - a * 440;                          // central avança; laterais mergulham bem fundo
-      var tx = -sign * Math.min(abs, 2) * 84;         // puxa as laterais pra dentro → leque sobreposto
-      var sc = Math.max(1 - abs * 0.16, 0.5);         // central maior; laterais encolhem
-      var op = Math.max(1 - abs * 0.46, 0.1);         // laterais bem mais apagadas (profundidade)
+      var ang = rot + i * step;
+      var rel = ((ang % 360) + 540) % 360 - 180; // ângulo p/ a frente, em [-180,180]
+      var abs = Math.abs(rel);
+      var rad = rel * Math.PI / 180;
+      // posição na órbita circular (raio); frente em z=0, laterais recuam pro fundo
+      var x = Math.sin(rad) * radius;
+      var z = Math.cos(rad) * radius - radius;
+      var face = rel * faceFactor;               // gira só uma fração → mais virado pra tela
       cards[i].style.transform =
-        "translateX(" + tx + "px) translateZ(" + tz + "px) rotateY(" + ry + "deg) scale(" + sc + ")";
+        "translate3d(" + x.toFixed(1) + "px,0," + z.toFixed(1) + "px) rotateY(" + face.toFixed(1) + "deg)";
+      // some ao virar pro fundo (não exibe o verso); foco no arco da frente
+      var op = abs <= 55 ? 1 : (abs >= 90 ? 0 : (90 - abs) / 35);
       cards[i].style.opacity = op;
-      cards[i].style.transformOrigin = "50% 50%";
-      cards[i].style.zIndex = String(1000 - Math.round(a * 100));
+      cards[i].style.zIndex = String(1000 - Math.round(abs));
+      cards[i].style.pointerEvents = abs < 50 ? "auto" : "none";
     }
   }
 
-  function loop() {
-    if (!dragging) offset += (target - offset) * 0.09; // glide com easing
-    // wrap contínuo (o conteúdo repete a cada setW → sem salto visível)
-    while (offset <= baseCenter - setW) { offset += setW; target += setW; }
-    while (offset > baseCenter) { offset -= setW; target -= setW; }
-    track.style.transform = "translateX(" + offset + "px)";
-    applyFocus();
+  var lastT = null;
+  function loop(t) {
+    if (lastT === null) lastT = t;
+    var dt = Math.min((t - lastT) / 1000, 0.05); // clamp evita salto ao voltar de aba inativa
+    lastT = t;
+    if (!dragging && !reduce) rot -= speed * dt;  // giro contínuo em torno do centro
+    place();
     requestAnimationFrame(loop);
   }
   requestAnimationFrame(loop);
@@ -290,11 +289,7 @@ window.addEventListener("resize", function () {
   var rt;
   window.addEventListener("resize", function () {
     clearTimeout(rt);
-    rt = setTimeout(function () {
-      ensureCopies();
-      cards = Array.prototype.slice.call(track.children);
-      measure(); snapTarget();
-    }, 200);
+    rt = setTimeout(measure, 200);
   });
 })();
 

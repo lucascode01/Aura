@@ -190,6 +190,12 @@ body.menu-open .hamburger span:nth-child(2) { bottom: 20px; transform: rotate(-4
   content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 180px; z-index: 0;
   background: linear-gradient(180deg, transparent, var(--bg));
 }
+/* camada dos brilhos azuis animados, mascarada pra terminar antes da faixa de logos */
+.hero-fx {
+  position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 56%, transparent 74%);
+  mask-image: linear-gradient(180deg, #000 0%, #000 56%, transparent 74%);
+}
 .hero .glow { display: block; z-index: 0; mix-blend-mode: screen; }
 /* glow estilo Framer: círculo azul sólido, blur enorme, brilho ambiente difuso */
 .hero-glow {
@@ -258,22 +264,22 @@ body.menu-open .hamburger span:nth-child(2) { bottom: 20px; transform: rotate(-4
 
 /* ===================== SERVICE BLOBS ===================== */
 .services-blobs { padding: 60px 0; }
-/* Carrossel "ticker" com foco central (réplica do Framer) — full-bleed e arrastável */
+/* Carrossel 3D giratório — cards orbitando um centro (full-bleed e arrastável) */
 .bcar {
   position: relative; overflow: hidden;
   width: 100vw; margin-left: calc(50% - 50vw);
-  padding: 100px 0; cursor: grab; touch-action: pan-y;
-  perspective: 900px; perspective-origin: 50% 46%;
+  height: clamp(400px, 44vw, 580px); cursor: grab; touch-action: pan-y;
+  perspective: 1200px; perspective-origin: 50% 50%;
 }
 .bcar.grabbing { cursor: grabbing; }
 .bcar-track {
-  display: flex; gap: 20px; width: max-content; will-change: transform;
+  position: absolute; left: 50%; top: 50%; will-change: transform;
   transform-style: preserve-3d;
 }
 .bcar-card {
-  flex: 0 0 auto; width: clamp(300px, 32vw, 460px); aspect-ratio: 1;
+  position: absolute; width: clamp(300px, 32vw, 460px); aspect-ratio: 1;
   will-change: transform, opacity; user-select: none;
-  transform-style: preserve-3d; backface-visibility: hidden;
+  transform-style: preserve-3d;
 }
 .bcar-frame {
   width: 100%; height: 100%; background: transparent; padding: 0;
@@ -680,4 +686,49 @@ footer {
 @media (max-width: 620px) {
   .team-grid { grid-template-columns: 1fr; }
   .awards-cards { grid-template-columns: 1fr; }
+}
+
+/* glass blur progressivo fixo na base da tela (acompanha a rolagem) */
+.bottom-blur {
+  position: fixed; left: 0; right: 0; bottom: 0; height: 160px;
+  z-index: 90; pointer-events: none;
+}
+.bottom-blur > div {
+  position: absolute; inset: 0;
+  -webkit-backdrop-filter: blur(0.5px); backdrop-filter: blur(0.5px);
+}
+/* cada camada desfoca mais e revela só a faixa mais próxima da base,
+   criando a transição suave do progressive blur do Framer */
+.bottom-blur > div:nth-child(1) {
+  -webkit-backdrop-filter: blur(1px); backdrop-filter: blur(1px);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 12.5%, #000 25%, transparent 37.5%);
+  mask-image: linear-gradient(to bottom, transparent 0%, #000 12.5%, #000 25%, transparent 37.5%);
+}
+.bottom-blur > div:nth-child(2) {
+  -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 12.5%, #000 25%, #000 37.5%, transparent 50%);
+  mask-image: linear-gradient(to bottom, transparent 12.5%, #000 25%, #000 37.5%, transparent 50%);
+}
+.bottom-blur > div:nth-child(3) {
+  -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 25%, #000 37.5%, #000 50%, transparent 62.5%);
+  mask-image: linear-gradient(to bottom, transparent 25%, #000 37.5%, #000 50%, transparent 62.5%);
+}
+.bottom-blur > div:nth-child(4) {
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 37.5%, #000 50%, #000 62.5%, transparent 75%);
+  mask-image: linear-gradient(to bottom, transparent 37.5%, #000 50%, #000 62.5%, transparent 75%);
+}
+.bottom-blur > div:nth-child(5) {
+  -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 50%, #000 62.5%, #000 75%, transparent 87.5%);
+  mask-image: linear-gradient(to bottom, transparent 50%, #000 62.5%, #000 75%, transparent 87.5%);
+}
+.bottom-blur > div:nth-child(6) {
+  -webkit-backdrop-filter: blur(32px); backdrop-filter: blur(32px);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 62.5%, #000 75%, #000 100%);
+  mask-image: linear-gradient(to bottom, transparent 62.5%, #000 75%, #000 100%);
+}
+@media (max-width: 620px) {
+  .bottom-blur { height: 110px; }
 }
