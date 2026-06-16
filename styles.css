@@ -267,8 +267,54 @@ body.menu-open .hamburger span:nth-child(2) { transform: translate(-50%,-50%) ro
 .split { padding: 80px 0; }
 .split-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
 .split-grid.flip > .split-img { order: 2; }
-.split-img { border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--border); aspect-ratio: 1/1.01; }
-.split-img img { width: 100%; height: 100%; object-fit: cover; }
+/* Framer-style image card: outer card (#080808 + 5% border), inner image (10% border), blue line + blue glow */
+.split-img {
+  position: relative;
+  border-radius: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  background-color: #080808;
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
+  padding: 10px;
+  box-sizing: border-box;
+  aspect-ratio: 1/1.01;
+  isolation: isolate;
+}
+.split-img img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  z-index: 1;
+}
+/* Blue scan line near the bottom of the image */
+.split-img::before {
+  content: "";
+  position: absolute;
+  left: 16%; right: 16%;
+  bottom: 30px;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(0, 85, 255, 0) 0%, #0055ff 50%, rgba(0, 85, 255, 0) 100%);
+  z-index: 2;
+  pointer-events: none;
+}
+/* Blue glow emanating from behind the bottom of the card */
+.split-img::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -24px;
+  width: 62%;
+  height: 130px;
+  transform: translateX(-50%);
+  background: #0055ff;
+  filter: blur(45px);
+  border-radius: 100%;
+  opacity: 0.55;
+  z-index: 0;
+  pointer-events: none;
+}
 .split-body h2 { font-size: clamp(30px, 4vw, 54px); line-height: .96; font-weight: 400; letter-spacing: -0.036em; margin: 18px 0 6px; }
 .split-body h2 .dim { color: rgba(255,255,255,.6); display: block; }
 .split-body > p { color: var(--muted); font-size: 16px; margin-top: 12px; }
