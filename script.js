@@ -165,17 +165,19 @@ window.addEventListener("resize", function () {
   function update() {
     ticking = false;
     var mobile = window.innerWidth <= 900;
+    var vh = window.innerHeight;
     for (var i = 0; i < cards.length; i++) {
       var card = cards[i];
       if (mobile) { card.style.transform = ""; continue; }
-      // posição em que o card "encaixa" (valor do top sticky: 110/128/146px)
-      var lock = parseFloat(getComputedStyle(card).top) || 110;
-      var d = card.getBoundingClientRect().top - lock;
-      // quanto falta pra encaixar: 1 = ainda subindo (menor), 0 = encaixado (normal)
-      var ap = Math.min(Math.max(d / 600, 0), 1);
-      // cresce conforme sobe e volta ao normal ao encaixar
-      var scale = 1 - 0.09 * ap;
-      card.style.transform = "scale(" + scale + ")";
+      var rect = card.getBoundingClientRect();
+      var center = rect.top + rect.height / 2;
+      // 1 = card ainda entrando (embaixo, menor) / 0 = chegou na posição (tamanho normal)
+      var p = (center - vh * 0.45) / (vh * 0.55);
+      p = Math.min(Math.max(p, 0), 1);
+      // cresce e sobe conforme entra na tela, e fica no tamanho normal
+      var scale = 1 - 0.22 * p;
+      var ty = 60 * p;
+      card.style.transform = "translateY(" + ty + "px) scale(" + scale + ")";
     }
   }
   function onScroll() {

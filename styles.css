@@ -362,17 +362,14 @@ body.menu-open .hamburger span:nth-child(2) { transform: translate(-50%,-50%) ro
 .processo-head p { color: var(--muted); font-size: 15px; margin-top: 14px; max-width: 440px; }
 .steps { display: flex; flex-direction: column; gap: 26px; }
 .step {
-  position: sticky; top: 110px;
-  overflow: hidden; isolation: isolate;
+  position: relative; overflow: hidden; isolation: isolate;
   transform-origin: center center; will-change: transform;
+  /* só a opacidade faz transição; o transform é controlado pelo scroll (instantâneo) */
+  transition: opacity 1.2s cubic-bezier(.16,.6,.28,1) var(--reveal-delay, 0s);
   border: 1px solid rgba(255,255,255,.08); border-radius: 20px;
   background: radial-gradient(120% 85% at 50% 0%, rgba(0,85,255,.07), transparent 62%), rgba(255,255,255,.022);
   padding: 30px; display: flex; flex-direction: column;
 }
-/* topos escalonados: formam o "deck" mesmo sem JS */
-.steps .step:nth-child(1) { top: 110px; }
-.steps .step:nth-child(2) { top: 128px; }
-.steps .step:nth-child(3) { top: 146px; }
 /* conteúdo acima das camadas decorativas */
 .step > *:not(.step-blur) { position: relative; z-index: 2; }
 /* "Star Line" decorativo no card final */
@@ -737,7 +734,7 @@ footer {
   .services-grid .side-img { position: static; }
   .collage-minis { grid-template-columns: 1fr; }
   .processo-side { position: static; }
-  .step { position: relative; top: auto; transform: none !important; filter: none !important; }
+  .step { transform: none !important; }
   .hero-strip { flex-direction: column; align-items: flex-start; gap: 20px; }
   .hero-strip .video-wrap { display: none; }   /* vídeo só na versão web */
   .collage-grid { grid-template-columns: 1fr; }
