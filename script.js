@@ -155,29 +155,44 @@ window.addEventListener("resize", function () {
   update();
 })();
 
-// ===== Empilhamento "deck" dos cards de processo ao rolar (igual ao Framer) =====
+// ===== Zoom dos cards de processo ao entrar em foco no scroll =====
 (function () {
   var cards = Array.prototype.slice.call(document.querySelectorAll(".steps .step"));
   if (cards.length < 2) return;
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  // roda em todos (desktop + mobile); não é gateado por reduce-motion de propósito,
+  // pois é um zoom sutil controlado pelo scroll (não anima sozinho).
 
   var ticking = false;
   function update() {
     ticking = false;
     var mobile = window.innerWidth <= 900;
     var vh = window.innerHeight;
+    var focal = vh * 0.5;          // ponto de foco (centro da tela)
+    var range = vh * 0.6;          // alcance do efeito acima/abaixo do foco
+    // no mobile os cards são full-width: limitamos o pico a 1.0 p/ não criar
+    // rolagem horizontal, e usamos uma faixa/lift menores.
+    var peak  = mobile ? 1.0  : 1.04;   // tamanho no foco
+    var enter = mobile ? 0.90 : 0.85;   // tamanho ao entrar (embaixo)
+    var lift  = mobile ? 18   : 40;     // deslocamento vertical ao entrar
     for (var i = 0; i < cards.length; i++) {
       var card = cards[i];
-      if (mobile) { card.style.transform = ""; continue; }
       var rect = card.getBoundingClientRect();
       var center = rect.top + rect.height / 2;
-      // 1 = card ainda entrando (embaixo, menor) / 0 = chegou na posição (tamanho normal)
-      var p = (center - vh * 0.45) / (vh * 0.55);
-      p = Math.min(Math.max(p, 0), 1);
-      // cresce e sobe conforme entra na tela, e fica no tamanho normal
-      var scale = 1 - 0.22 * p;
-      var ty = 60 * p;
+      // t > 0: card abaixo do foco (entrando) | 0: em foco | t < 0: acima (saindo)
+      var t = (center - focal) / range;
+      t = Math.min(Math.max(t, -1), 1);
+      var scale, ty;
+      if (t >= 0) {
+        // entrando por baixo: menor e deslocado, cresce até o "pop" no foco
+        scale = peak - (peak - enter) * t;
+        ty = lift * t;
+      } else {
+        // saindo por cima: assenta do "pop" para o tamanho normal (1.0)
+        scale = peak + (peak - 1.0) * t;
+        ty = 0;
+      }
       card.style.transform = "translateY(" + ty + "px) scale(" + scale + ")";
+      card.style.zIndex = scale > 1 ? "2" : "1";   // card em foco por cima na sobreposição
     }
   }
   function onScroll() {

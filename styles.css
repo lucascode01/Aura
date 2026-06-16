@@ -734,7 +734,6 @@ footer {
   .services-grid .side-img { position: static; }
   .collage-minis { grid-template-columns: 1fr; }
   .processo-side { position: static; }
-  .step { transform: none !important; }
   .hero-strip { flex-direction: column; align-items: flex-start; gap: 20px; }
   .hero-strip .video-wrap { display: none; }   /* vídeo só na versão web */
   .collage-grid { grid-template-columns: 1fr; }
