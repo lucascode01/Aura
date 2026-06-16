@@ -565,6 +565,84 @@ body.menu-open .hamburger span:nth-child(2) { transform: translate(-50%,-50%) ro
 .plan ul { margin: 22px 0; }
 .plan .btn { width: 100%; }
 
+/* ===================== FEATURE CARDS (Serviços — réplica Framer) ===================== */
+.feature-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 50px; }
+.feature-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  background:
+    radial-gradient(120% 90% at 50% 0%, rgba(255, 255, 255, 0.035), transparent 55%),
+    #08080d;
+  overflow: hidden;
+}
+/* Topo: ícone + tag */
+.fc-top { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 30px; }
+.fc-ico {
+  width: 46px; height: 46px; flex: none;
+  display: grid; place-items: center;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 85, 255, 0.15);
+  background: radial-gradient(50% 50% at 50% 50%, rgba(0, 153, 255, 0.15) 0%, rgb(9, 9, 18) 100%);
+  box-shadow: 0 5px 25px 0 rgba(0, 85, 255, 0.25), inset 0 10px 10px -1px rgba(255, 255, 255, 0.08);
+}
+.fc-ico svg { width: 22px; height: 22px; fill: #fff; }
+.fc-tag {
+  position: relative;
+  display: inline-flex; align-items: center;
+  padding: 8px 14px 10px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  -webkit-backdrop-filter: blur(5px); backdrop-filter: blur(5px);
+  background: linear-gradient(0deg, rgba(0, 85, 255, 0.08) 0%, rgba(153, 153, 153, 0.1) 100%);
+  font-size: 13px; font-weight: 500; line-height: 1;
+}
+.fc-tag span {
+  background: linear-gradient(90deg, #fff 0%, rgba(153, 153, 153, 0) 350%);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; color: transparent;
+}
+.fc-line {
+  position: absolute; left: 0; right: 0; bottom: 0; height: 1px;
+  background: linear-gradient(90deg, rgba(0, 85, 255, 0) 0%, #0055ff 50%, rgba(0, 85, 255, 0) 100%);
+}
+/* Corpo */
+.fc-title { font-size: 20px; font-weight: 600; letter-spacing: -0.01em; margin: 0; }
+.fc-sep {
+  height: 1px; margin: 16px 0;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0) 100%);
+}
+.fc-desc { color: rgba(255, 255, 255, 0.5); font-size: 14px; line-height: 1.5; margin: 0; }
+.fc-pills { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+.fc-pill {
+  display: inline-flex; align-items: baseline; gap: 5px;
+  padding: 8px 14px; border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  -webkit-backdrop-filter: blur(2.5px); backdrop-filter: blur(2.5px);
+  background: linear-gradient(0deg, rgba(199, 199, 199, 0.06) 0%, rgba(71, 71, 71, 0.06) 100%);
+  font-size: 13px; color: rgba(255, 255, 255, 0.6);
+}
+.fc-pill b { color: #fff; font-weight: 600; font-size: 14px; }
+.fc-points { list-style: none; margin: 22px 0 0; padding: 0; display: grid; gap: 12px; }
+.fc-points li { display: flex; align-items: center; gap: 10px; color: rgba(255, 255, 255, 0.6); font-size: 14px; }
+.fc-points li svg { width: 18px; height: 18px; flex: none; fill: #0055ff; }
+.fc-btn {
+  margin-top: auto; padding-top: 26px;
+}
+.fc-btn a {
+  display: flex; align-items: center; justify-content: center;
+  padding: 14px 20px; border-radius: 10px;
+  border: 3px solid rgba(255, 255, 255, 0.15);
+  background-color: #0055ff;
+  color: #fff; font-weight: 600; font-size: 14px; text-decoration: none;
+  box-shadow: 0 8px 40px 0 rgba(0, 85, 255, 0.5), 0 0 0 1px rgba(0, 85, 255, 0.12);
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.fc-btn a:hover { transform: translateY(-1px); box-shadow: 0 12px 50px 0 rgba(0, 85, 255, 0.6), 0 0 0 1px rgba(0, 85, 255, 0.2); }
+
 /* ===================== DEPOIMENTOS ===================== */
 .testimonials { padding: 90px 0; }
 .tgrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-top: 50px; }
@@ -646,7 +724,7 @@ footer {
   .split-grid { grid-template-columns: 1fr; gap: 30px; }
   .split-grid.flip > .split-img { order: 0; }
   .split-grid:not(.flip) > .split-body { order: -1; } /* "Sobre Aura": texto acima da foto no mobile */
-  .feat-grid, .plans, .blob-grid, .tgrid { grid-template-columns: 1fr; }
+  .feat-grid, .plans, .blob-grid, .tgrid, .feature-cards { grid-template-columns: 1fr; }
   .processo-grid, .faq-grid, .services-grid { grid-template-columns: 1fr; gap: 30px; }
   .services-grid .side-img { position: static; }
   .collage-minis { grid-template-columns: 1fr; }
