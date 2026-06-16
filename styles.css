@@ -706,7 +706,7 @@ body.menu-open .hamburger span:nth-child(2) { transform: translate(-50%,-50%) ro
   75%  { transform: translate(-24%, 16%)  scale(1.08); }
   100% { transform: translate(-20%, -8%)  scale(1); }
 }
-@media (prefers-reduced-motion: reduce) { .cta .cta-blur { animation: none; } }
+/* o blur do card CTA continua se movendo mesmo com reduce-motion (efeito ambiente sutil) */
 .cta .eyebrow { position: relative; z-index: 1; }
 .cta h2 { font-size: clamp(32px, 4.4vw, 54px); font-weight: 400; letter-spacing: -0.036em; line-height: 1; position: relative; z-index: 1; }
 .cta p { color: rgba(255,255,255,.75); margin: 20px auto 34px; max-width: 540px; position: relative; z-index: 1; }
@@ -931,4 +931,79 @@ footer {
 }
 @media (max-width: 620px) {
   .bottom-blur { height: 110px; }
+}
+
+/* ===================== PÁGINA SOBRE ===================== */
+/* Hero centralizado com imagem */
+.about-hero { padding: 168px 0 70px; text-align: center; }
+.about-hero .hl-tag { margin: 0 auto; }
+.about-hero h1 { font-size: clamp(40px, 6.2vw, 82px); line-height: 1.02; font-weight: 400; letter-spacing: -0.044em; margin: 26px auto 0; max-width: 15ch; }
+.about-hero h1 .dim { color: rgba(255,255,255,.55); display: block; }
+.about-hero > .container > p { color: var(--muted); font-size: 16px; max-width: 540px; margin: 20px auto 0; }
+.about-hero .hero-actions { justify-content: center; margin-top: 32px; }
+.about-hero-img { margin: 64px auto 0; max-width: var(--maxw); border-radius: 24px; overflow: hidden; border: 1px solid var(--border);
+  box-shadow: 0 50px 120px -30px rgba(0,85,255,.55); }
+.about-hero-img img { width: 100%; display: block; }
+
+/* Sub-itens dos blocos split */
+.split-points { display: grid; gap: 26px; margin-top: 30px; }
+.split-points h4 { font-size: 17px; font-weight: 600; margin-bottom: 8px; letter-spacing: -.01em; }
+.split-points p { color: var(--muted); font-size: 15px; line-height: 1.55; }
+
+/* Cabeçalho de seção alinhado à esquerda + botão */
+.section-head.left { margin: 0; text-align: left; max-width: 640px; }
+.head-cta { margin-top: 30px; }
+
+/* Equipe */
+.team-section .glow { display: block; z-index: 0; mix-blend-mode: screen; }
+.team-section .container { position: relative; z-index: 1; }
+.team-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-top: 54px; }
+.team-card { border-radius: 18px; border: 1px solid var(--border); padding: 14px;
+  display: flex; flex-direction: column; gap: 14px;
+  background: radial-gradient(85% 75% at 12% -8%, rgba(0,85,255,.18), transparent 55%), rgba(255,255,255,.025); }
+.team-card .photo { border-radius: 12px; overflow: hidden; aspect-ratio: 1 / 1; background: var(--bg-soft); }
+.team-card .photo img { width: 100%; height: 100%; object-fit: cover; }
+.team-card .meta { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 0 4px 4px; }
+.team-card .meta b { display: block; font-size: 14px; font-weight: 600; letter-spacing: -.01em; }
+.team-card .meta span { font-size: 12px; color: rgba(255,255,255,.55); }
+.team-card .sbtn { width: 34px; height: 34px; flex: none; border-radius: 10px; display: grid; place-items: center;
+  border: 1px solid var(--border); background: rgba(255,255,255,.03); transition: background .2s ease; }
+.team-card .sbtn:hover { background: rgba(255,255,255,.08); }
+.team-card .sbtn svg { width: 14px; height: 14px; fill: #fff; opacity: .85; }
+
+/* Prêmios */
+.awards-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin-top: 54px; }
+.award-card { border: 1px solid var(--border); border-radius: 20px; padding: 14px; background: var(--card); }
+.award-logo { height: 168px; border-radius: 14px; display: grid; place-items: center;
+  border: 1px solid var(--border);
+  background: radial-gradient(120% 90% at 50% 0%, rgba(0,85,255,.08), transparent 60%), rgba(255,255,255,.02); }
+.award-logo img { height: 38px; width: auto; opacity: .9; filter: grayscale(1) brightness(1.6); }
+.award-foot { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 18px 10px 8px; }
+.award-foot h4 { font-size: 17px; font-weight: 600; }
+.award-foot .sub { color: var(--muted); font-size: 14px; margin-top: 2px; }
+.award-count { flex: none; font-size: 14px; font-weight: 600; padding: 9px 14px; border-radius: 11px;
+  border: 1px solid rgba(255,255,255,.05); color: rgba(255,255,255,.85);
+  background: linear-gradient(0deg, rgba(0,85,255,.10), rgba(153,153,153,.10)); }
+
+/* Ferramentas */
+.tools-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 54px; }
+.tool-card { border: 1px solid var(--border); border-radius: 18px; padding: 26px; background: var(--card);
+  display: flex; flex-direction: column; }
+.tool-head { display: flex; align-items: center; gap: 14px; }
+.tool-ico { width: 48px; height: 48px; flex: none; border-radius: 12px; display: grid; place-items: center;
+  border: 1px solid var(--border); background: rgba(255,255,255,.04); }
+.tool-ico img { width: 28px; height: 28px; object-fit: contain; }
+.tool-head h4 { font-size: 16px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+.tool-pro { font-size: 10px; font-weight: 700; letter-spacing: .05em; color: #fff; background: var(--blue);
+  border-radius: 5px; padding: 2px 6px; }
+.tool-cat { font-size: 13px; color: var(--blue-soft); margin: 16px 0 8px; }
+.tool-card p { color: var(--muted); font-size: 14px; line-height: 1.55; }
+
+@media (max-width: 900px) {
+  .about-hero { padding-top: 130px; }
+  .team-grid, .tools-grid { grid-template-columns: 1fr 1fr; }
+  .awards-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 620px) {
+  .team-grid, .tools-grid { grid-template-columns: 1fr; }
 }
