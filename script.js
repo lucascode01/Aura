@@ -155,6 +155,38 @@ window.addEventListener("resize", function () {
   update();
 })();
 
+// ===== Empilhamento "deck" dos cards de processo ao rolar (igual ao Framer) =====
+(function () {
+  var cards = Array.prototype.slice.call(document.querySelectorAll(".steps .step"));
+  if (cards.length < 2) return;
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+  var ticking = false;
+  function update() {
+    ticking = false;
+    var mobile = window.innerWidth <= 900;
+    for (var i = 0; i < cards.length; i++) {
+      var card = cards[i];
+      if (mobile) { card.style.transform = ""; continue; }
+      // posição em que o card "encaixa" (valor do top sticky: 110/128/146px)
+      var lock = parseFloat(getComputedStyle(card).top) || 110;
+      var d = card.getBoundingClientRect().top - lock;
+      // quanto falta pra encaixar: 1 = ainda subindo (menor), 0 = encaixado (normal)
+      var ap = Math.min(Math.max(d / 600, 0), 1);
+      // cresce conforme sobe e volta ao normal ao encaixar
+      var scale = 1 - 0.09 * ap;
+      card.style.transform = "scale(" + scale + ")";
+    }
+  }
+  function onScroll() {
+    if (!ticking) { ticking = true; requestAnimationFrame(update); }
+  }
+  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", onScroll);
+  if (window.lenis && window.lenis.on) window.lenis.on("scroll", onScroll);
+  update();
+})();
+
 // ===== Bolinha branca que segue o cursor =====
 (function () {
   var dot = document.getElementById("cursorDot");
