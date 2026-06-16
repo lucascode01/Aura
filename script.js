@@ -204,6 +204,53 @@ window.addEventListener("resize", function () {
   update();
 })();
 
+// ===== Zoom dos cards de serviços ("Obtenha Serviços...") ao entrar em foco =====
+(function () {
+  var cards = Array.prototype.slice.call(document.querySelectorAll(".feature-cards .feature-card"));
+  if (cards.length < 2) return;
+
+  // o transform é controlado pelo scroll: a transição precisa ser só de opacidade
+  // (senão a regra .reveal aplica "transform 1.2s" e o zoom fica arrastado).
+  cards.forEach(function (c) { c.style.transition = "opacity 1.2s cubic-bezier(.16,.6,.28,1)"; });
+
+  var ticking = false;
+  function update() {
+    ticking = false;
+    var mobile = window.innerWidth <= 900;
+    var vh = window.innerHeight;
+    var focal = vh * 0.5;          // ponto de foco (centro da tela)
+    var range = vh * 0.6;          // alcance do efeito acima/abaixo do foco
+    // no mobile (1 coluna, full-width) limitamos o pico a 1.0 p/ não criar rolagem horizontal
+    var peak  = mobile ? 1.0  : 1.04;
+    var enter = mobile ? 0.90 : 0.85;
+    var lift  = mobile ? 18   : 40;
+    for (var i = 0; i < cards.length; i++) {
+      var card = cards[i];
+      var rect = card.getBoundingClientRect();
+      var center = rect.top + rect.height / 2;
+      var t = (center - focal) / range;
+      t = Math.min(Math.max(t, -1), 1);
+      var scale, ty;
+      if (t >= 0) {
+        scale = peak - (peak - enter) * t;
+        ty = lift * t;
+      } else {
+        scale = peak + (peak - 1.0) * t;
+        ty = 0;
+      }
+      card.style.transform = "translateY(" + ty + "px) scale(" + scale + ")";
+      card.style.zIndex = scale > 1 ? "2" : "1";
+    }
+  }
+  function onScroll() {
+    if (!ticking) { ticking = true; requestAnimationFrame(update); }
+  }
+  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", onScroll);
+  if (window.lenis && window.lenis.on) window.lenis.on("scroll", onScroll);
+  update();
+})();
+
 // ===== Bolinha branca que segue o cursor =====
 (function () {
   var dot = document.getElementById("cursorDot");
@@ -277,16 +324,17 @@ window.addEventListener("resize", function () {
   }
 
   var rot = 0;          // rotação atual do anel (graus)
+  var vel = 0;          // velocidade angular do flick (graus/s) — inércia
   var radius = 400;     // raio da órbita (px) — calculado em measure()
-  var speed = 10;       // graus por segundo (giro contínuo)
-  var faceFactor = 0.4; // quanto o card acompanha a curva: 0 = sempre de frente p/ tela, 1 = radial
-  var dragging = false, lastX = 0;
+  var speed = 8;        // graus por segundo (giro contínuo de base)
+  var faceFactor = 0.5; // quanto o card acompanha a curva: 0 = sempre de frente p/ tela, 1 = radial
+  var dragging = false, lastX = 0, lastMoveT = 0;
 
   function measure() {
     var w = cards[0].offsetWidth || 360;
     var h = cards[0].offsetHeight || w;
-    // raio que espaça os cards no círculo sem sobreposição excessiva
-    radius = (w / 2) / Math.tan(Math.PI / N) * 1.12;
+    // raio maior → cards mais afastados entre si e mais profundidade no eixo Z
+    radius = (w / 2) / Math.tan(Math.PI / N) * 1.5;
     for (var i = 0; i < cards.length; i++) {
       var c = cards[i];
       c.style.position = "absolute";
@@ -298,13 +346,19 @@ window.addEventListener("resize", function () {
   measure();
 
   car.addEventListener("pointerdown", function (e) {
-    dragging = true; lastX = e.clientX; car.classList.add("grabbing");
+    dragging = true; vel = 0; lastX = e.clientX; lastMoveT = performance.now();
+    car.classList.add("grabbing");
     try { car.setPointerCapture(e.pointerId); } catch (_) {}
   });
   car.addEventListener("pointermove", function (e) {
     if (!dragging) return;
-    rot += (e.clientX - lastX) * 0.25; // arrastar gira o anel
-    lastX = e.clientX;
+    var now = performance.now();
+    var dt = Math.max(now - lastMoveT, 1) / 1000;
+    var dr = (e.clientX - lastX) * 0.25; // arrastar gira o anel
+    rot += dr;
+    // velocidade do gesto → inércia ao soltar (suavizada p/ não dar trancos)
+    vel = vel * 0.6 + (dr / dt) * 0.4;
+    lastX = e.clientX; lastMoveT = now;
   });
   function endDrag() {
     if (!dragging) return;
@@ -323,11 +377,16 @@ window.addEventListener("resize", function () {
       var x = Math.sin(rad) * radius;
       var z = Math.cos(rad) * radius - radius;
       var face = rel * faceFactor;               // gira só uma fração → mais virado pra tela
+      var depth = (z + 2 * radius) / (2 * radius); // 1 = frente | 0 = fundo
+      var scale = 0.78 + 0.22 * depth;             // cards da frente maiores → reforça profundidade
       cards[i].style.transform =
-        "translate3d(" + x.toFixed(1) + "px,0," + z.toFixed(1) + "px) rotateY(" + face.toFixed(1) + "deg)";
+        "translate3d(" + x.toFixed(1) + "px,0," + z.toFixed(1) + "px) rotateY(" + face.toFixed(1) + "deg) scale(" + scale.toFixed(3) + ")";
       // some ao virar pro fundo (não exibe o verso); foco no arco da frente
-      var op = abs <= 55 ? 1 : (abs >= 90 ? 0 : (90 - abs) / 35);
-      cards[i].style.opacity = op;
+      var op = abs <= 55 ? 1 : (abs >= 95 ? 0 : (95 - abs) / 40);
+      cards[i].style.opacity = op.toFixed(3);
+      // desfoque de campo: cards ao fundo levemente borrados (profundidade + fluidez)
+      var blur = (1 - depth) * 3.2;
+      cards[i].style.filter = blur > 0.2 ? "blur(" + blur.toFixed(2) + "px)" : "none";
       cards[i].style.zIndex = String(1000 - Math.round(abs));
       cards[i].style.pointerEvents = abs < 50 ? "auto" : "none";
     }
@@ -338,7 +397,12 @@ window.addEventListener("resize", function () {
     if (lastT === null) lastT = t;
     var dt = Math.min((t - lastT) / 1000, 0.05); // clamp evita salto ao voltar de aba inativa
     lastT = t;
-    if (!dragging && !reduce) rot -= speed * dt;  // giro contínuo em torno do centro
+    if (!dragging && !reduce) {
+      rot += vel * dt;                  // inércia do flick → desliza ao soltar
+      vel *= Math.exp(-2.4 * dt);       // atrito suave, independente de framerate
+      if (Math.abs(vel) < 0.4) vel = 0; // descansa e volta ao giro de base
+      rot -= speed * dt;                // giro contínuo em torno do centro
+    }
     place();
     requestAnimationFrame(loop);
   }
