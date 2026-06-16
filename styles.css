@@ -321,11 +321,12 @@ body.menu-open .hamburger span:nth-child(2) { transform: translate(-50%,-50%) ro
   background: radial-gradient(120% 85% at 50% 0%, rgba(0,85,255,.07), transparent 62%), rgba(255,255,255,.022);
   padding: 30px; display: flex; flex-direction: column;
 }
-/* textura de fundo (igual ao Framer, hospedada local) */
+/* imagem de fundo (código) com escurecimento pra legibilidade — igual ao Framer */
 .step::before {
   content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none;
-  background: url("assets/img/step-bg.png") center / cover no-repeat;
-  opacity: .14; mix-blend-mode: screen;
+  background:
+    linear-gradient(180deg, rgba(9,9,18,.45) 0%, rgba(9,9,18,.82) 100%),
+    url("assets/img/code.jpg") center / cover no-repeat;
 }
 /* camada de vidro (blur) na base do card — réplica do "Blur" do Framer */
 .step-blur {
