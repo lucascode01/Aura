@@ -1021,6 +1021,9 @@ footer {
   /* telas de dashboard são largas: no mobile mostramos o topo inteiro, sem cortar as laterais */
   .proj-img { aspect-ratio: 16 / 11; }
   .proj-img img { object-fit: cover; object-position: top center; }
+  /* cards cuja captura mobile é um print de celular (retrato): mostra em formato vertical */
+  .proj-img.is-phone { aspect-ratio: 3 / 4; }
+  .proj-img.is-phone img { object-fit: cover; object-position: top center; }
 }
 .proj-foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 8px 8px; }
 .proj-name { font-size: 17px; font-weight: 600; letter-spacing: -.01em; display: flex; align-items: center; gap: 10px; }

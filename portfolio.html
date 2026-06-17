@@ -6,7 +6,7 @@
 <title>Portfólio · Aura Software</title>
 <meta name="description" content="Confira alguns dos trabalhos da Aura Software: aplicações, plataformas e sistemas sob medida que geram impacto real." />
 <link rel="icon" href="assets/img/logo-nav.png" />
-<link rel="stylesheet" href="styles.css?v=42" />
+<link rel="stylesheet" href="styles.css?v=44" />
 </head>
 <body>
 
@@ -75,7 +75,10 @@
         </div>
       </a>
       <a class="proj-card" href="portfolio/saudevida.html">
-        <div class="proj-img"><img loading="lazy" decoding="async" src="assets/img/saude-desktop.jpg" alt="Saúde e Vida" /></div>
+        <div class="proj-img is-phone"><picture>
+          <source media="(max-width: 760px)" srcset="assets/img/saude-mobile.jpg" />
+          <img loading="lazy" decoding="async" src="assets/img/saude-desktop.jpg" alt="Saúde e Vida" />
+        </picture></div>
         <div class="proj-foot">
           <div class="proj-name">Saúde E Vida <span class="proj-cat">Platform</span></div>
           <span class="proj-year">2024</span>
