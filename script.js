@@ -79,6 +79,7 @@ window.addEventListener("resize", function () {
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
   function reveal(el, delay) {
+    if (el.classList.contains("no-reveal")) return;
     el.classList.add("reveal");
     if (delay) el.style.setProperty("--reveal-delay", delay + "s");
   }
@@ -86,7 +87,6 @@ window.addEventListener("resize", function () {
   // containers de texto: cada filho sobe em cascata (estilo Framer)
   document.querySelectorAll(".hero-inner, .section-head, .processo-head, .split-body").forEach(function (c) {
     Array.prototype.forEach.call(c.children, function (child, i) {
-      if (child.classList.contains("no-reveal")) return;
       reveal(child, Math.min(i * 0.1, 0.6));
     });
   });
@@ -126,7 +126,8 @@ window.addEventListener("resize", function () {
 // ===== Títulos: revelam PALAVRA por PALAVRA ao entrar na tela =====
 (function () {
   var sel = ".section-head h2, .split-body h2, .processo-head h2, .cta h2, .hero-bottom p";
-  var heads = Array.prototype.slice.call(document.querySelectorAll(sel));
+  var heads = Array.prototype.slice.call(document.querySelectorAll(sel))
+    .filter(function (h) { return !h.classList.contains("no-reveal"); });
   if (!heads.length) return;
 
   // envolve cada palavra num <span class="word">, preservando .dim, <br>, etc.
