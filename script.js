@@ -125,7 +125,7 @@ window.addEventListener("resize", function () {
 
 // ===== Títulos: revelam PALAVRA por PALAVRA ao entrar na tela =====
 (function () {
-  var sel = ".section-head h2, .split-body h2, .processo-head h2, .cta h2, .hero-bottom p";
+  var sel = ".section-head h2, .split-body h2, .processo-head h2, .cta h2, .hero-bottom p, .word-fx";
   var heads = Array.prototype.slice.call(document.querySelectorAll(sel))
     .filter(function (h) { return !h.classList.contains("no-reveal"); });
   if (!heads.length) return;
