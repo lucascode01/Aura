@@ -550,7 +550,13 @@ body.menu-open .hamburger span:nth-child(2) { transform: translate(-50%,-50%) ro
 .svc-card .btn { margin-top: 20px; }
 .plans { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin-top: 50px; max-width: 940px; margin-left: auto; margin-right: auto; }
 .plan { border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--card); padding: 34px; position: relative; }
-.plan.featured { background: radial-gradient(120% 80% at 80% 0%, rgba(0,85,255,.18), transparent 60%), var(--card); border-color: rgba(0,85,255,.4); }
+.plan.featured { background: radial-gradient(120% 80% at 80% 0%, rgba(0,85,255,.18), transparent 60%), var(--card); border-color: rgba(0,85,255,.4); overflow: hidden; isolation: isolate; }
+/* "Star Line" decorativo no canto inferior direito (igual ao card final da seção Processo) */
+.plan.featured::after {
+  content: ""; position: absolute; right: -60px; bottom: -40px; z-index: -1;
+  width: 200px; height: 200px; pointer-events: none; opacity: .8;
+  background: url("assets/img/star-line.svg") no-repeat center / contain;
+}
 .plan .badge { position: absolute; top: 28px; right: 28px; font-size: 12px; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--border); background: var(--bg-soft); }
 .plan .ico { width: 48px; height: 48px; border-radius: 12px; display: grid; place-items: center; font-size: 22px; margin-bottom: 20px; background: linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.02)); color: #fff; }
 .plan .ico svg { width: 24px; height: 24px; }
