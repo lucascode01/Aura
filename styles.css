@@ -552,11 +552,14 @@ body.menu-open .hamburger span:nth-child(2) { transform: translate(-50%,-50%) ro
 .plan { border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--card); padding: 34px; position: relative; }
 .plan.featured { background: radial-gradient(120% 80% at 80% 0%, rgba(0,85,255,.18), transparent 60%), var(--card); border-color: rgba(0,85,255,.4); }
 .plan .badge { position: absolute; top: 28px; right: 28px; font-size: 12px; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--border); background: var(--bg-soft); }
-.plan .ico { width: 48px; height: 48px; border-radius: 12px; display: grid; place-items: center; font-size: 22px; margin-bottom: 20px; background: linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.02)); }
+.plan .ico { width: 48px; height: 48px; border-radius: 12px; display: grid; place-items: center; font-size: 22px; margin-bottom: 20px; background: linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.02)); color: #fff; }
+.plan .ico svg { width: 24px; height: 24px; }
 .plan h3 { font-size: 20px; font-weight: 600; }
 .plan .from { color: var(--muted); font-size: 14px; margin-top: 14px; }
 .plan .price { font-size: 44px; font-weight: 700; letter-spacing: -0.02em; margin-top: 4px; }
-.plan .price del { font-size: 26px; color: var(--muted-2); font-weight: 500; margin-left: 10px; }
+.plan .price del { font-size: 26px; color: var(--muted-2); font-weight: 500; margin-left: 10px; position: relative; display: inline-block; text-decoration: none; }
+.plan .price del::after { content: ""; position: absolute; left: -8%; right: -8%; top: 52%; height: 2px; background: var(--blue); transform: rotate(-12deg); border-radius: 2px; }
+.plan .check-list li.off { opacity: .4; }
 .plan .desc { color: var(--muted); font-size: 14px; margin-top: 14px; }
 .plan .mini { display: flex; gap: 10px; margin-top: 18px; }
 .plan .mini span { font-size: 13px; color: var(--muted); border: 1px solid var(--border); border-radius: 999px; padding: 6px 12px; }
