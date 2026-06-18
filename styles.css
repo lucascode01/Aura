@@ -1131,3 +1131,19 @@ footer {
   /* na "Responsividade", no celular mostra só a tela de celular (some o print de desktop) */
   .pd-showcase .d { display: none; }
 }
+
+/* ===================== SEÇÃO SERVIÇOS (imagem + conteúdo) ===================== */
+.services-grid { display: grid; grid-template-columns: 0.82fr 1.18fr; gap: 48px; align-items: start; position: relative; z-index: 1; }
+.services-media { position: sticky; top: 110px; }
+.services-img { position: relative; border-radius: 24px; overflow: hidden; border: 1px solid var(--border);
+  box-shadow: 0 44px 110px -34px rgba(0,85,255,.55); }
+.services-img img { display: block; width: 100%; height: 100%; object-fit: cover; aspect-ratio: 0.82; }
+.services-line { position: absolute; left: 0; right: 0; bottom: 0; height: 2px; pointer-events: none;
+  background: linear-gradient(90deg, rgba(0,85,255,0) 0%, #0055ff 50%, rgba(0,85,255,0) 100%); }
+/* cards empilhados verticalmente na coluna direita */
+.services-content .feature-cards { grid-template-columns: 1fr; gap: 24px; margin-top: 40px; }
+@media (max-width: 900px) {
+  .services-grid { grid-template-columns: 1fr; gap: 30px; }
+  .services-media { position: static; }
+  .services-img img { aspect-ratio: 16 / 10; }
+}
