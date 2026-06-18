@@ -124,7 +124,7 @@ window.addEventListener("resize", function () {
 
 // ===== Títulos: revelam PALAVRA por PALAVRA ao entrar na tela =====
 (function () {
-  var sel = ".hero-inner h1, .section-head h2, .split-body h2, .processo-head h2, .cta h2, .hero-bottom p";
+  var sel = ".section-head h2, .split-body h2, .processo-head h2, .cta h2, .hero-bottom p";
   var heads = Array.prototype.slice.call(document.querySelectorAll(sel));
   if (!heads.length) return;
 
