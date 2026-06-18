@@ -86,6 +86,7 @@ window.addEventListener("resize", function () {
   // containers de texto: cada filho sobe em cascata (estilo Framer)
   document.querySelectorAll(".hero-inner, .section-head, .processo-head, .split-body").forEach(function (c) {
     Array.prototype.forEach.call(c.children, function (child, i) {
+      if (child.classList.contains("no-reveal")) return;
       reveal(child, Math.min(i * 0.1, 0.6));
     });
   });
