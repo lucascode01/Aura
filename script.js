@@ -122,6 +122,66 @@ window.addEventListener("resize", function () {
   });
 })();
 
+// ===== Títulos: revelam PALAVRA por PALAVRA ao entrar na tela =====
+(function () {
+  var sel = ".hero-inner h1, .section-head h2, .split-body h2, .processo-head h2, .cta h2";
+  var heads = Array.prototype.slice.call(document.querySelectorAll(sel));
+  if (!heads.length) return;
+
+  // envolve cada palavra num <span class="word">, preservando .dim, <br>, etc.
+  function wrap(container, c) {
+    Array.prototype.slice.call(container.childNodes).forEach(function (node) {
+      if (node.nodeType === 3) { // nó de texto
+        var parts = node.textContent.split(/(\s+)/);
+        var frag = document.createDocumentFragment();
+        parts.forEach(function (part) {
+          if (part === "") return;
+          if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(part)); return; }
+          var w = document.createElement("span");
+          w.className = "word";
+          w.textContent = part;
+          w.style.transitionDelay = Math.min(c.i * 0.055, 1.3).toFixed(3) + "s";
+          c.i++;
+          frag.appendChild(w);
+        });
+        container.replaceChild(frag, node);
+      } else if (node.nodeType === 1) {
+        wrap(node, c); // mantém o elemento (ex.: .dim) e divide o texto interno
+      }
+    });
+  }
+
+  heads.forEach(function (h) {
+    if (h.dataset.wr) return;
+    h.dataset.wr = "1";
+    h.classList.remove("reveal");          // evita o fade do bloco inteiro
+    h.style.removeProperty("--reveal-delay");
+    h.classList.add("word-reveal");
+    wrap(h, { i: 0 });
+  });
+
+  // gatilho por posição no scroll (robusto — sem depender do IntersectionObserver):
+  // cada título revela quando entra na viewport e nunca fica escondido.
+  var pending = heads.slice();
+  var ticking = false;
+  function check() {
+    ticking = false;
+    for (var k = pending.length - 1; k >= 0; k--) {
+      var r = pending[k].getBoundingClientRect();
+      if (r.top < window.innerHeight - 40 && r.bottom > 0) {
+        pending[k].classList.add("in");
+        pending.splice(k, 1);
+      }
+    }
+  }
+  function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(check); } }
+  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", onScroll);
+  window.addEventListener("load", check);
+  if (window.lenis && window.lenis.on) window.lenis.on("scroll", onScroll);
+  check();
+})();
+
 // ===== Empilhamento "leque" dos cards de portfólio ao rolar =====
 (function () {
   var cards = Array.prototype.slice.call(document.querySelectorAll(".bigproj"));

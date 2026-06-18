@@ -158,6 +158,14 @@ section { position: relative; }
 }
 .reveal.in { opacity: 1; transform: none; }
 
+/* títulos: revelam palavra por palavra ao entrar na tela */
+.word-reveal .word {
+  display: inline-block; opacity: 0; transform: translateY(0.45em);
+  transition: opacity .5s cubic-bezier(.16,.6,.28,1), transform .5s cubic-bezier(.16,.6,.28,1);
+  will-change: opacity, transform;
+}
+.word-reveal.in .word { opacity: 1; transform: none; }
+
 /* ===================== NAVBAR (barra full-width fixa, como no original) ===================== */
 .nav-wrap { position: fixed; top: 0; left: 0; right: 0; z-index: 100; transition: transform .4s cubic-bezier(.4, 0, .2, 1); will-change: transform; }
 .nav-wrap.nav-hidden { transform: translateY(-100%); }
