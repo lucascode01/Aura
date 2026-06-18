@@ -558,8 +558,11 @@ body.menu-open .hamburger span:nth-child(2) { transform: translate(-50%,-50%) ro
   background: url("assets/img/star-line.svg") no-repeat center / contain;
 }
 .plan .badge { position: absolute; top: 28px; right: 28px; font-size: 12px; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--border); background: var(--bg-soft); }
-.plan .ico { width: 48px; height: 48px; border-radius: 12px; display: grid; place-items: center; font-size: 22px; margin-bottom: 20px; background: linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.02)); color: #fff; }
-.plan .ico svg { width: 24px; height: 24px; }
+.plan .ico { width: 54px; height: 54px; border-radius: 14px; display: grid; place-items: center; margin-bottom: 20px; color: #fff;
+  background: linear-gradient(160deg, rgba(0,85,255,.14), rgba(10,14,30,.55));
+  border: 1px solid rgba(0,85,255,.35);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.06), 0 0 20px rgba(0,85,255,.28); }
+.plan .ico svg { width: 28px; height: 28px; }
 .plan h3 { font-size: 20px; font-weight: 600; }
 .plan .from { color: var(--muted); font-size: 14px; margin-top: 14px; }
 .plan .price { font-size: 44px; font-weight: 700; letter-spacing: -0.02em; margin-top: 4px; }
