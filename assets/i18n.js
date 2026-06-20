@@ -14,15 +14,6 @@
   var lang = isPt ? "pt" : "en";
   document.documentElement.lang = isPt ? "pt-BR" : "en";
 
-  // Anti-flash: esconde a página até traduzir (somente quando vamos traduzir).
-  // Se este arquivo falhar ao carregar, a classe nunca é adicionada -> sem tela em branco.
-  if (lang === "en") {
-    var st = document.createElement("style");
-    st.textContent = "html.i18n-pending{visibility:hidden}";
-    (document.head || document.documentElement).appendChild(st);
-    document.documentElement.classList.add("i18n-pending");
-  }
-
   // Dicionário: "texto em português" -> "texto em inglês"
   var dict = {
     // ---- Navegação / rodapé ----
@@ -69,7 +60,7 @@
     "Agende uma call de 15 minutos.": "Book a 15-minute call.",
 
     // ---- Home: processo ----
-    "Como trabalhamos?": "How we work?",
+    "Como trabalhamos?": "How We Work?",
     "Como Trabalhamos?": "How We Work?",
     "Simplificamos a jornada": "We simplify the journey",
     "do design ao lançamento.": "from design to launch.",
@@ -448,20 +439,20 @@
   }
 
   function apply() {
-    try {
-      if (lang === "en") {
-        translateText();
-        translateAttrs();
-      }
-      setupSwitch();
-    } finally {
-      document.documentElement.classList.remove("i18n-pending");
+    if (lang === "en") {
+      translateText();
+      translateAttrs();
     }
+    setupSwitch();
   }
 
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", apply);
-  } else {
+  // IMPORTANTE: este script deve ficar no fim do <body>, ANTES do script.js,
+  // para traduzir os textos antes que o script.js divida os títulos em palavras
+  // (animação word-reveal). Se o body já existe, traduz imediatamente; caso
+  // contrário, espera o DOM.
+  if (document.body) {
     apply();
+  } else {
+    document.addEventListener("DOMContentLoaded", apply);
   }
 })();
