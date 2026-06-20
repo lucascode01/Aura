@@ -18,7 +18,34 @@ export default {
     // /pt/<resto> -> serve o asset /<resto> (a URL no navegador continua /pt/...)
     if (p.startsWith("/pt/")) {
       url.pathname = p.slice(3) || "/"; // remove o prefixo "/pt"
-      return env.ASSETS.fetch(new Request(url, request));
+      const res = await env.ASSETS.fetch(new Request(url, request));
+
+      // O handler de assets pode responder com um redirect (ex.: /portfolio.html
+      // -> /portfolio para URLs limpas). Como buscamos o asset SEM o prefixo /pt,
+      // esse Location volta sem /pt e jogaria o usuário para a versão em inglês.
+      // Reescrevemos o Location para manter o prefixo /pt.
+      if (res.status >= 300 && res.status < 400) {
+        const loc = res.headers.get("Location");
+        if (loc) {
+          const locUrl = new URL(loc, url);
+          if (
+            locUrl.origin === url.origin &&
+            !locUrl.pathname.startsWith("/pt/") &&
+            locUrl.pathname !== "/pt"
+          ) {
+            locUrl.pathname = "/pt" + locUrl.pathname;
+            const headers = new Headers(res.headers);
+            headers.set("Location", locUrl.pathname + locUrl.search + locUrl.hash);
+            return new Response(res.body, {
+              status: res.status,
+              statusText: res.statusText,
+              headers,
+            });
+          }
+        }
+      }
+
+      return res;
     }
 
     // Qualquer outra coisa que tenha caído aqui (404 etc.)

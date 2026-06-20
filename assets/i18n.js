@@ -320,7 +320,7 @@
     "Trabalhos Extraordinários.": "Extraordinary Work.",
     "Desde startups a marcas consolidadas, criamos soluções personalizadas que impulsionam o sucesso e geram um impacto real.": "From startups to established brands, we craft custom solutions that drive success and make a real impact.",
     "Crie Seu produto": "Build Your Product",
-    "Aplication": "Application",
+    "Application": "Application",
 
     // ---- Projeto (comum) ----
     "Estudo de Caso": "Case Study",
