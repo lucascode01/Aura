@@ -184,6 +184,10 @@ section { position: relative; }
 .nav-links a.active { color: var(--text); }
 .nav-cta { display: flex; align-items: center; gap: 10px; margin-left: auto; }
 .nav-cta .btn-primary { padding: 11px 19px; border-radius: 10px; font-size: 15px; }
+.lang-btn { display: inline-flex; align-items: center; gap: 6px; padding: 9px 12px; border: 1px solid var(--border); border-radius: 10px; background: transparent; color: var(--muted); font-size: 14px; font-weight: 500; line-height: 1; cursor: pointer; transition: color .2s, border-color .2s, background .2s; }
+.lang-btn:hover { color: var(--text); border-color: var(--text); }
+.lang-btn svg { width: 16px; height: 16px; flex: none; }
+.lang-btn .lang-code { letter-spacing: .03em; }
 main, .page-top { padding-top: 91px; }
 /* hambúrguer de 2 linhas (estilo Framer) — vira X ao abrir */
 .hamburger { display: none; width: 44px; height: 44px; border: none; background: transparent; cursor: pointer; position: relative; }
@@ -324,7 +328,7 @@ body.menu-open .hamburger span:nth-child(2) { transform: translate(-50%,-50%) ro
   z-index: 0;
   pointer-events: none;
 }
-.split-body h2 { font-size: clamp(30px, 4vw, 54px); line-height: .96; font-weight: 400; letter-spacing: -0.036em; margin: 18px 0 6px; }
+.split-body h2 { font-size: clamp(34px, 4.6vw, 62px); line-height: .96; font-weight: 400; letter-spacing: -0.036em; margin: 18px 0 6px; }
 .split-body h2 .dim { color: rgba(255,255,255,.6); display: block; }
 .split-body > p { color: var(--muted); font-size: 16px; margin-top: 12px; }
 .split-body .check-list { margin-top: 22px; }
