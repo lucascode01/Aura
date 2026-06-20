@@ -681,9 +681,28 @@ body.menu-open .hamburger span:nth-child(2) { transform: translate(-50%,-50%) ro
 .testimonials { padding: 90px 0; }
 .tgrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-top: 50px; }
 .tcard {
-  border: 1px solid var(--border); border-radius: var(--radius); padding: 26px;
-  background: radial-gradient(120% 100% at 50% 120%, rgba(0,85,255,.08), transparent 60%), var(--card);
+  position: relative;
+  border: 1px solid rgba(47,123,255,.22); border-radius: var(--radius); padding: 26px;
+  background:
+    radial-gradient(130% 110% at 50% 120%, rgba(0,85,255,.22), transparent 62%),
+    radial-gradient(120% 100% at 50% -10%, rgba(47,123,255,.10), transparent 55%),
+    rgba(10,14,28,.45);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  box-shadow:
+    0 24px 70px -20px rgba(0,85,255,.45),
+    0 0 0 1px rgba(47,123,255,.06) inset,
+    0 1px 0 rgba(255,255,255,.05) inset;
   display: flex; flex-direction: column;
+  transition: border-color .3s ease, box-shadow .3s ease, transform .3s ease;
+}
+.tcard:hover {
+  border-color: rgba(47,123,255,.45);
+  box-shadow:
+    0 34px 90px -18px rgba(0,85,255,.6),
+    0 0 0 1px rgba(47,123,255,.10) inset,
+    0 1px 0 rgba(255,255,255,.06) inset;
+  transform: translateY(-3px);
 }
 .tcard .ttop { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 14px; }
 .tcard .av { width: 46px; height: 46px; border-radius: 50%; object-fit: cover; background: var(--bg-soft); border: 1px solid var(--border); }
