@@ -295,7 +295,8 @@ body.menu-open .hamburger span:nth-child(2) { transform: translate(-50%,-50%) ro
 }
 .split-img img {
   width: 100%; height: 100%;
-  object-fit: cover;
+  object-fit: contain;
+  background-color: #080808;
   border-radius: 20px;
   border: 1px solid rgba(255, 255, 255, 0.1);
   position: relative;
