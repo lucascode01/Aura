@@ -278,6 +278,7 @@ body.menu-open .hamburger span:nth-child(2) { transform: translate(-50%,-50%) ro
 
 /* ===================== SPLIT (código / time / office) ===================== */
 .split { padding: 80px 0; }
+.split-code .split-img { margin-top: 48px; }
 .split-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
 .split-grid.flip > .split-img { order: 2; }
 /* Framer-style image card: outer card (#080808 + 5% border), inner image (10% border), blue line + blue glow */
