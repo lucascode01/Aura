@@ -174,6 +174,11 @@
     "A Escolha Mais Popular": "Most Popular Choice",
     "Desenvolvimento de App Standard": "Standard App Development",
     "A partir de:": "Starting at:",
+    // Valores das ofertas convertidos para USD/EUR (versão em inglês)
+    "R$997": "$189 / €169",
+    "R$1450": "$269 / €249",
+    "R$2.599": "$489 / €439",
+    "R$3997": "$749 / €679",
     "Ideal para startups, empresas e empreendedores que precisam lançar um aplicativo mobile ou sistema web profissional com excelente custo-benefício.": "Ideal for startups, businesses and entrepreneurs who need to launch a professional mobile app or web system with excellent value for money.",
     "100+ Projetos": "100+ Projects",
     "75+ Revisões": "75+ Revisions",
