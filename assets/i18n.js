@@ -242,8 +242,8 @@
     "Fale com a Aura Software. Tire dúvidas, peça ajuda ou inicie um novo projeto — nossa equipe está pronta para ajudar.": "Get in touch with Aura Software. Ask questions, get help or start a new project — our team is ready to help.",
     "Portfólio · Aura Software": "Portfolio · Aura Software",
     "Confira alguns dos trabalhos da Aura Software: aplicações, plataformas e sistemas sob medida que geram impacto real.": "Check out some of Aura Software's work: custom applications, platforms and systems that make a real impact.",
-    "Saúde E Vida · Portfólio · Aura Software": "Saúde E Vida · Portfolio · Aura Software",
-    "Saúde E Vida — plataforma de exercícios e bem-estar para os profissionais da empresa, com conteúdos e acompanhamento para promover qualidade de vida.": "Saúde E Vida — an exercise and wellness platform for the company's professionals, with content and tracking to promote quality of life.",
+    "Max Performance · Portfólio · Aura Software": "Max Performance · Portfolio · Aura Software",
+    "Max Performance — sistema de inteligência artificial para clínicas, com três robôs treinados que entregam scripts de venda, respostas e estratégias prontas para atrair e converter mais pacientes.": "Max Performance — an artificial intelligence system for clinics, with three trained bots that deliver sales scripts, answers and ready-made strategies to attract and convert more patients.",
     "AgendaClínica · Portfólio · Aura Software": "AgendaClínica · Portfolio · Aura Software",
     "AgendaClínica — SaaS de gestão para clínicas que organiza consultas, profissionais e prontuários, com IA para automatizar a triagem e reduzir faltas.": "AgendaClínica — a clinic management SaaS that organizes appointments, professionals and records, with AI to automate triage and reduce no-shows.",
     "Raio-X Fiscal · Portfólio · Aura Software": "Raio-X Fiscal · Portfolio · Aura Software",
@@ -345,11 +345,17 @@
     "Mais": "More",
     "Outros Projetos": "Other Projects",
 
-    // ---- Saúde E Vida ----
-    "Bem-estar": "Wellness",
-    "A Saúde E Vida é uma plataforma de exercícios e bem-estar para os profissionais da empresa, com conteúdos e acompanhamento criados para promover saúde e qualidade de vida no dia a dia, de forma simples e acessível para toda a equipe.": "Saúde E Vida is an exercise and wellness platform for the company's professionals, with content and tracking designed to promote health and quality of life every day, in a simple and accessible way for the whole team.",
-    "Problema — Bem-estar Que Engaja": "Problem — Wellness That Engages",
-    "Programas de bem-estar corporativo costumam ter baixa adesão por serem dispersos e pouco práticos. O desafio era reunir exercícios, conteúdos e acompanhamento em uma plataforma simples, que motivasse os profissionais a cuidar da saúde no dia a dia.": "Corporate wellness programs often suffer from low adoption because they're scattered and impractical. The challenge was to bring exercises, content and tracking together in one simple platform that motivates professionals to take care of their health every day.",
+    // ---- Max Performance ----
+    "Inteligência Artificial": "Artificial Intelligence",
+    "Plataforma de IA": "AI Platform",
+    "A Max Performance é um sistema de inteligência artificial para clínicas. Três robôs treinados na metodologia entregam à equipe scripts de venda, respostas e estratégias prontas — para atrair, converter e não perder nenhum paciente.": "Max Performance is an artificial intelligence system for clinics. Three bots trained in the methodology deliver sales scripts, answers and ready-made strategies to the team — to attract, convert and never lose a single patient.",
+    "Problema — Pacientes Que Escapam": "Problem — Patients Slipping Away",
+    "Clínicas perdem pacientes todos os dias por respostas lentas, atendimento sem padrão e equipes sem argumentos prontos para contornar objeções. O desafio era dar à equipe comercial respostas em segundos, com scripts de venda e estratégias consistentes para cada situação.": "Clinics lose patients every day due to slow replies, inconsistent service and teams without ready arguments to handle objections. The challenge was to give the sales team answers in seconds, with sales scripts and consistent strategies for every situation.",
+    "Solução — Três Robôs de IA": "Solution — Three AI Bots",
+    "Desenvolvemos uma plataforma com três robôs de IA — Sofia, Rafael e Helena — treinados na metodologia Max Performance. Cada um cobre uma frente do funil: atrair, converter e reter pacientes, entregando à equipe respostas, scripts e estratégias prontas em segundos.": "We built a platform with three AI bots — Sofia, Rafael and Helena — trained in the Max Performance methodology. Each covers a stage of the funnel: attract, convert and retain patients, delivering answers, scripts and ready-made strategies to the team in seconds.",
+    "Atendimento": "Service",
+    "IA": "AI",
+    "A equipe pergunta, a IA responde na hora — reconhecendo o valor antes do preço, contornando objeções e sugerindo o próximo passo. O resultado é um atendimento mais rápido, padronizado e que fecha mais pacientes todos os dias.": "The team asks, the AI answers instantly — acknowledging value before price, handling objections and suggesting the next step. The result is faster, standardized service that closes more patients every day.",
 
     // ---- AgendaClínica ----
     "Saúde": "Health",
