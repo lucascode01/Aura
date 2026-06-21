@@ -34,7 +34,7 @@
     // ---- Home: hero ----
     "NOVO": "NEW",
     "Estúdio nº 1 de 2025": "#1 Studio of 2025",
-    "Engenharia de software para quem exige performance, escala e controle.": "Software engineering for those who demand performance, scale and control.",
+    "Engenharia de Software para quem exige performance, escala e controle.": "Software engineering for those who demand performance, scale and control.",
     "Tecnologia não pode ser um ponto de risco dentro da sua operação — ela precisa ser um diferencial competitivo.": "Technology can't be a point of risk inside your operation — it has to be a competitive advantage.",
     "Na Aura Software, projetamos e desenvolvemos sistemas com foco em estabilidade, eficiência e segurança desde a base. Cada solução é pensada para sustentar crescimento, integrar processos e reduzir fricção operacional.": "At Aura Software, we design and build systems focused on stability, efficiency and security from the ground up. Every solution is engineered to sustain growth, integrate processes and reduce operational friction.",
     "Conecte-se Conosco": "Connect With Us",
