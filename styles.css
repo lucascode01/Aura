@@ -227,6 +227,7 @@ body.menu-open .hamburger span:nth-child(2) { transform: translate(-50%,-50%) ro
 }
 .hero-inner { position: relative; z-index: 1; }
 .hero h1 { font-size: clamp(54px, 7.4vw, 104px); line-height: 1.02; font-weight: 400; letter-spacing: -0.044em; margin: 24px 0; max-width: 760px; }
+@media (min-width: 821px) { .hero h1 { font-size: clamp(54px, 5.6vw, 80px); } }
 .hero p { color: var(--muted); font-size: 15px; max-width: 430px; }
 .hero p + p { margin-top: 14px; }
 .hero-actions { display: flex; gap: 12px; margin-top: 34px; flex-wrap: wrap; }

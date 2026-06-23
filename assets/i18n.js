@@ -45,7 +45,7 @@
     "Sobre Aura": "About Aura",
     "Construindo Marcas Mais Fortes": "Building Stronger Brands",
     "Criando impressões!": "Creating Impressions!",
-    "Entregamos designs sob demanda de alta qualidade com precisão.": "We deliver high-quality on-demand design with precision.",
+    "Entregamos sistemas sob demanda de alta qualidade com precisão.": "We deliver high-quality on-demand systems with precision.",
     "Eleve sua marca sem esforço, um clique de cada vez.": "Elevate your brand effortlessly, one click at a time.",
     "De R$ 0 a R$ 1.000.000 em vendas": "From R$0 to R$1,000,000 in sales",
     "Crescimento de 47% em novos clientes.": "47% growth in new clients.",
