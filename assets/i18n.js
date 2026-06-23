@@ -64,7 +64,7 @@
     "Como Trabalhamos?": "How We Work?",
     "Simplificamos a jornada": "We simplify the journey",
     "do design ao lançamento.": "from design to launch.",
-    "Nós facilitamos a concretização das suas ideias, guiando você desde a concepção até o lançamento completo do produto.": "We make it easy to bring your ideas to life, guiding you from concept to full product launch.",
+    "Nós facilitamos a concretização das suas ideias, guiando você desde a concepção até o lançamento completo do aplicativo.": "We make it easy to bring your ideas to life, guiding you from concept to full app launch.",
     "Estágio 1": "Stage 1",
     "Estágio 2": "Stage 2",
     "Estágio 3": "Stage 3",
