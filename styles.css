@@ -232,6 +232,33 @@ body.menu-open .hamburger span:nth-child(2) { transform: translate(-50%,-50%) ro
 .hero p + p { margin-top: 14px; }
 .hero-actions { display: flex; gap: 12px; margin-top: 34px; flex-wrap: wrap; }
 .hero-bottom { display: flex; align-items: flex-end; justify-content: space-between; gap: 40px; }
+
+/* Revelação gradual dos elementos da seção inicial, um de cada vez */
+@keyframes heroReveal {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.hero-inner .hl-tag,
+.hero-inner h1,
+.hero-inner .hero-bottom p,
+.hero-inner .hero-actions {
+  opacity: 0;
+  animation: heroReveal .8s cubic-bezier(.22,.61,.36,1) both;
+}
+.hero-inner .hl-tag      { animation-delay: .2s; }
+.hero-inner h1           { animation-delay: .7s; }
+.hero-inner .hero-bottom p { animation-delay: 1.2s; }
+.hero-inner .hero-actions  { animation-delay: 1.7s; }
+@media (prefers-reduced-motion: reduce) {
+  .hero-inner .hl-tag,
+  .hero-inner h1,
+  .hero-inner .hero-bottom p,
+  .hero-inner .hero-actions {
+    opacity: 1;
+    animation: none;
+  }
+}
+
 .hero-strip { display: flex; align-items: center; justify-content: space-between; gap: 60px; margin-top: 40px; padding-top: 28px; position: relative; z-index: 1; }
 /* brilho azul muito sutil na divisa com o conteúdo acima */
 .hero-strip::before {
