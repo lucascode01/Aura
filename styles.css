@@ -358,10 +358,18 @@ body.menu-open .hamburger span:nth-child(2) { transform: translate(-50%,-50%) ro
 .split-body .btn { margin-top: 26px; }
 .split-cta { display: flex; align-items: center; gap: 22px; margin-top: 26px; flex-wrap: wrap; }
 .split-note { color: var(--muted); font-size: 14px; max-width: 170px; }
-.split-note .stars { color: #f5c518; letter-spacing: 2px; display: block; margin-bottom: 4px; }
+.split-note .stars { color: #fff; letter-spacing: 2px; display: block; margin-bottom: 4px; }
 
 /* ===================== SERVICE BLOBS ===================== */
 .services-blobs { padding: 60px 0; }
+/* Brilho azul no final da seção do carrossel 3D */
+.carrossel-3d { position: relative; }
+.carrossel-3d::after {
+  content: ""; position: absolute; left: 50%; bottom: -60px; transform: translateX(-50%);
+  width: 90vw; height: 320px; pointer-events: none; z-index: -1;
+  background: radial-gradient(ellipse 60% 100% at 50% 100%, rgba(0,85,255,.55) 0%, rgba(0,85,255,.22) 40%, rgba(0,85,255,0) 72%);
+  filter: blur(60px);
+}
 /* Carrossel 3D giratório — cards orbitando um centro (full-bleed e arrastável) */
 .bcar {
   position: relative; overflow: hidden;
