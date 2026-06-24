@@ -103,6 +103,8 @@ section { position: relative; }
 .btn-primary:hover { background: #0a5cff; transform: translateY(-1px); }
 .btn-light { background: #ffffff; border-color: transparent; color: #0a0a0c; font-weight: 500; }
 .btn-light:hover { background: #e9e9ee; }
+.btn-soft { background: rgba(255,255,255,.12); border-color: rgba(255,255,255,.16); color: #fff; backdrop-filter: blur(6px); }
+.btn-soft:hover { background: rgba(255,255,255,.2); }
 .chip { background: var(--blue); color: #fff; font-size: 11px; font-weight: 600; letter-spacing: .05em; border-radius: 6px; padding: 3px 8px; }
 
 /* Highlight Tag do hero — réplica do Framer */
@@ -517,7 +519,14 @@ body.menu-open .hamburger span:nth-child(2) { transform: translate(-50%,-50%) ro
 /* ===================== COLAGEM (fotos + cards) ===================== */
 .collage { padding: 80px 0; }
 .collage-grid { display: grid; grid-template-columns: 1.45fr 1fr; gap: 22px; margin-top: 50px; }
-.collage-card { border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--card); overflow: hidden; display: flex; flex-direction: column; }
+.collage-card { position: relative; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--card); overflow: hidden; display: flex; flex-direction: column; }
+.collage-card > * { position: relative; z-index: 1; }
+.collage-card::after {
+  content: ""; position: absolute; left: 50%; bottom: -50px; transform: translateX(-50%);
+  width: 85%; height: 220px; pointer-events: none; z-index: 0;
+  background: radial-gradient(ellipse 60% 100% at 50% 100%, rgba(0,85,255,.55) 0%, rgba(0,85,255,.22) 45%, rgba(0,85,255,0) 72%);
+  filter: blur(45px);
+}
 .collage-card .photo { width: 100%; aspect-ratio: 16/8; object-fit: cover; }
 .collage-card .body { padding: 24px; }
 .collage-card h3 { font-size: 19px; font-weight: 600; display: flex; align-items: center; gap: 10px; }
