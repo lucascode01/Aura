@@ -365,10 +365,12 @@ body.menu-open .hamburger span:nth-child(2) { transform: translate(-50%,-50%) ro
 /* Brilho azul no final da seção do carrossel 3D */
 .carrossel-3d { position: relative; }
 .carrossel-3d::after {
-  content: ""; position: absolute; left: 50%; bottom: -60px; transform: translateX(-50%);
-  width: 90vw; height: 320px; pointer-events: none; z-index: -1;
-  background: radial-gradient(ellipse 60% 100% at 50% 100%, rgba(0,85,255,.55) 0%, rgba(0,85,255,.22) 40%, rgba(0,85,255,0) 72%);
+  content: ""; position: absolute; left: 50%; bottom: 0; transform: translateX(-50%) translateY(50%);
+  width: 90vw; height: 420px; pointer-events: none; z-index: -1;
+  background: radial-gradient(ellipse 50% 50% at 50% 50%, rgba(0,85,255,.6) 0%, rgba(0,85,255,.25) 45%, rgba(0,85,255,0) 72%);
   filter: blur(60px);
+  /* corta a metade de baixo: só a cúpula superior fica na seção do carrossel */
+  clip-path: inset(0 0 50% 0);
 }
 /* Carrossel 3D giratório — cards orbitando um centro (full-bleed e arrastável) */
 .bcar {
