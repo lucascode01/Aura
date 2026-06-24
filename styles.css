@@ -517,7 +517,16 @@ body.menu-open .hamburger span:nth-child(2) { transform: translate(-50%,-50%) ro
 }
 
 /* ===================== COLAGEM (fotos + cards) ===================== */
-.collage { padding: 80px 0; }
+.collage { padding: 80px 0; position: relative; }
+/* Brilho azul cortado ao meio (180°) marcando o fim da seção de colagem */
+.collage::after {
+  content: ""; position: absolute; left: 50%; bottom: 0; transform: translateX(-50%) translateY(50%);
+  width: 90vw; height: 420px; pointer-events: none; z-index: 0;
+  background: radial-gradient(ellipse 50% 50% at 50% 50%, rgba(0,85,255,.6) 0%, rgba(0,85,255,.25) 45%, rgba(0,85,255,0) 72%);
+  filter: blur(60px);
+  clip-path: inset(0 0 50% 0);
+}
+.collage .container { position: relative; z-index: 1; }
 .collage-grid { display: grid; grid-template-columns: 1.45fr 1fr; gap: 22px; margin-top: 50px; }
 .collage-card { position: relative; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--card); overflow: hidden; display: flex; flex-direction: column; }
 .collage-card > * { position: relative; z-index: 1; }
