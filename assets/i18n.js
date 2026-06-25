@@ -137,7 +137,6 @@
 
     // ---- Home: portfólio ----
     "Nossos Projetos Selecionados": "Our Selected Projects",
-    "Isso Impulsiona Seu Site.": "That Powers Your Website.",
     "Explore nosso trabalho — colaborações com clientes visionários em diversos setores.": "Explore our work — collaborations with visionary clients across many industries.",
     "Ver Portfólio": "View Portfolio",
 
