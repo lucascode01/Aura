@@ -313,29 +313,53 @@ window.addEventListener("resize", function () {
   update();
 })();
 
-// ===== Bolinha branca que segue o cursor =====
+// ===== Cursor: bolinha grudada + anel que arrasta + escala em clicáveis =====
 (function () {
   var dot = document.getElementById("cursorDot");
   if (!dot) return;
   if (window.matchMedia("(hover: none), (pointer: coarse)").matches) return;
 
+  // cria o anel que segue com atraso
+  var ring = document.createElement("div");
+  ring.className = "cursor-ring";
+  document.body.appendChild(ring);
+
   var hasLabel = !!document.getElementById("viewCursor");
-  var tx = -100, ty = -100, x = -100, y = -100, shown = 0, over = 0;
+  var tx = -100, ty = -100;
+  var dx = -100, dy = -100; // posição da bolinha
+  var rx = -100, ry = -100; // posição do anel
+  var shown = 0, over = 0;
 
   window.addEventListener("mousemove", function (e) { tx = e.clientX; ty = e.clientY; shown = 1; });
   document.addEventListener("mouseleave", function () { shown = 0; });
   document.addEventListener("mouseenter", function () { shown = 1; });
+
+  // some sobre os cards de portfólio (onde aparece o "View Now")
   if (hasLabel) {
     document.querySelectorAll(".bigproj").forEach(function (c) {
       c.addEventListener("mouseenter", function () { over = 1; });
       c.addEventListener("mouseleave", function () { over = 0; });
     });
   }
+
+  // cresce ao passar sobre elementos clicáveis
+  var clickable = "a, button, .btn, input, textarea, select, summary, label, .faq-q, [role='button']";
+  document.addEventListener("mouseover", function (e) {
+    var hit = e.target.closest && e.target.closest(clickable);
+    dot.classList.toggle("is-hover", !!hit);
+    ring.classList.toggle("is-hover", !!hit);
+  });
+
   (function loop() {
-    x += (tx - x) * 0.3;
-    y += (ty - y) * 0.3;
-    dot.style.transform = "translate(" + x + "px," + y + "px) translate(-50%,-50%)";
-    dot.style.opacity = (shown && !over) ? 1 : 0;
+    dx += (tx - dx) * 0.35;
+    dy += (ty - dy) * 0.35;
+    rx += (tx - rx) * 0.15;
+    ry += (ty - ry) * 0.15;
+    dot.style.transform = "translate(" + dx + "px," + dy + "px) translate(-50%,-50%)";
+    ring.style.transform = "translate(" + rx + "px," + ry + "px) translate(-50%,-50%)";
+    var vis = (shown && !over) ? 1 : 0;
+    dot.style.opacity = vis;
+    ring.style.opacity = vis;
     requestAnimationFrame(loop);
   })();
 })();
