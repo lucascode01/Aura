@@ -141,6 +141,7 @@
     "Ver Portfólio": "View Portfolio",
 
     // ---- Home: serviços ----
+    "Nossos Serviços": "Our Services",
     "Obtenha Serviços de Alta Qualidade": "Get High-Quality Services",
     "Com Clareza, Remotamente.": "With Clarity, Remotely.",
     "Descubra nossa gama de serviços criados para elevar sua marca e impulsionar seu negócio para o próximo nível.": "Discover our range of services crafted to elevate your brand and take your business to the next level.",
@@ -257,6 +258,7 @@
     "Raio-X Fiscal — plataforma web que transforma o CNPJ de uma empresa em um diagnóstico visual de oportunidades fiscais, financeiras e operacionais.": "Raio-X Fiscal — a web platform that turns a company's CNPJ into a visual diagnosis of tax, financial and operational opportunities.",
 
     // ---- Sobre ----
+    "Conheça a Fundo": "Dig Deep About Us",
     "Saiba Mais Sobre a Aura": "Learn More About Aura",
     "Vamos Analisar Em Detalhes!!": "Let's Dive Into the Details!!",
     "A Aura é a sua parceira de tecnologia para construir produtos digitais sob medida. Somos especialistas em desenvolvimento de software e soluções digitais para negócios.": "Aura is your technology partner for building custom digital products. We specialize in software development and digital solutions for businesses.",
@@ -336,6 +338,7 @@
     "Categoria": "Category",
     "Cliente": "Client",
     "Ver Projeto Online": "View Live Project",
+    "Peça uma Demonstração": "Request a Demo",
     "Plataforma Web": "Web Platform",
     "Plataforma SaaS": "SaaS Platform",
     "Aplicação Web": "Web Application",
