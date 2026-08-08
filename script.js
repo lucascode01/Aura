@@ -541,3 +541,33 @@ document.querySelectorAll(".faq-item").forEach(function (item) {
   }
   requestAnimationFrame(frame);
 })();
+
+// ===== LP: formulário de qualificação (BANT) =====
+// Sem backend no site: o envio monta um e-mail já formatado para o time comercial,
+// com as respostas de necessidade / prazo / orçamento / decisor prontas para o SDR.
+(function () {
+  var form = document.getElementById("lpForm");
+  if (!form) return;
+
+  var LABELS = {
+    nome: "Nome", empresa: "Empresa", email: "E-mail", whatsapp: "WhatsApp",
+    necessidade: "Necessidade", prazo: "Prazo", orcamento: "Orcamento",
+    decisor: "Decisor", contexto: "Contexto"
+  };
+
+  form.addEventListener("submit", function (ev) {
+    ev.preventDefault();
+    if (!form.reportValidity()) return;
+
+    var data = new FormData(form);
+    var linhas = Object.keys(LABELS).map(function (k) {
+      return LABELS[k] + ": " + (data.get(k) || "-");
+    });
+
+    var assunto = "Novo lead - " + (data.get("empresa") || data.get("nome") || "site");
+    window.location.href =
+      "mailto:contato@aurasoftware.cloud" +
+      "?subject=" + encodeURIComponent(assunto) +
+      "&body=" + encodeURIComponent(linhas.join("\n"));
+  });
+})();

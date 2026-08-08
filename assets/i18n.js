@@ -33,13 +33,71 @@
 
     // ---- Home: hero ----
     "NOVO": "NEW",
+    "VAGAS LIMITADAS": "LIMITED SLOTS",
     "Estúdio nº 1 de 2025": "#1 Studio of 2025",
+    "Abrimos 3 projetos por mês": "We open 3 projects per month",
+    "Seu sistema sob medida no ar em até 30 dias.": "Your custom system live in 30 days or less.",
+    "Escopo, prazo e custo fechados antes da primeira linha de código — e uma entrega funcionando na sua mão a cada semana.": "Scope, timeline and cost locked in before the first line of code — plus a working delivery in your hands every week.",
+    "Arquitetura, desenvolvimento, deploy e suporte com um único time. Você acompanha o progresso em ciclos semanais e só avança quando aprova o que foi entregue.": "Architecture, development, deployment and support from a single team. You follow progress in weekly cycles and only move forward once you approve what was delivered.",
+    "Quero meu diagnóstico gratuito": "Get my free assessment",
+    "Resposta em até 24h · Diagnóstico sem custo · Sem compromisso": "Reply within 24h · Free assessment · No commitment",
     "Engenharia de Software para quem exige Performance, Escala e Controle.": "Software engineering for those who demand performance, scale and control.",
     "Tecnologia não pode ser um ponto de risco dentro da sua operação — ela precisa ser um diferencial competitivo.": "Technology can't be a point of risk inside your operation — it has to be a competitive advantage.",
     "Na Aura Software, projetamos e desenvolvemos sistemas com foco em estabilidade, eficiência e segurança desde a base. Cada solução é pensada para sustentar crescimento, integrar processos e reduzir fricção operacional.": "At Aura Software, we design and build systems focused on stability, efficiency and security from the ground up. Every solution is engineered to sustain growth, integrate processes and reduce operational friction.",
     "Conecte-se Conosco": "Connect With Us",
     "Conecte-se conosco": "Connect With Us",
     "O que é Aura?": "What is Aura?",
+
+    // ---- Home: formulário de qualificação (BANT) ----
+    "Diagnóstico gratuito": "Free assessment",
+    "Conte seu contexto em 40 segundos": "Tell us your context in 40 seconds",
+    "Com essas respostas nosso time já chega na call sabendo do que você precisa — sem reunião para descobrir o óbvio.": "With these answers our team arrives at the call already knowing what you need — no meeting just to uncover the obvious.",
+    "Nome completo*": "Full name*",
+    "João Silva": "John Smith",
+    "Empresa*": "Company*",
+    "Nome da empresa": "Company name",
+    "E-mail corporativo*": "Work email*",
+    "joao@empresa.com": "john@company.com",
+    "WhatsApp*": "WhatsApp*",
+    "O que você precisa construir?*": "What do you need to build?*",
+    "Selecione o tipo de projeto": "Select the project type",
+    "Sistema interno / ERP sob medida": "Internal system / custom ERP",
+    "Plataforma SaaS ou MVP": "SaaS platform or MVP",
+    "Aplicativo mobile": "Mobile app",
+    "Site institucional ou landing page": "Company website or landing page",
+    "Automação e integrações entre sistemas": "Automation and system integrations",
+    "Refazer / resgatar um projeto travado": "Rebuild / rescue a stalled project",
+    "Quando precisa estar no ar?*": "When does it need to go live?*",
+    "Selecione o prazo": "Select the timeline",
+    "Com urgência — este mês": "Urgent — this month",
+    "Nos próximos 30 a 60 dias": "In the next 30 to 60 days",
+    "Nos próximos 3 a 6 meses": "In the next 3 to 6 months",
+    "Ainda estou avaliando": "Still evaluating",
+    "Qual o investimento previsto?*": "What's the planned investment?*",
+    "Selecione a faixa": "Select the range",
+    "Até R$ 10.000": "Up to R$10,000",
+    "R$ 10.000 a R$ 30.000": "R$10,000 to R$30,000",
+    "R$ 30.000 a R$ 80.000": "R$30,000 to R$80,000",
+    "Acima de R$ 80.000": "Above R$80,000",
+    "Ainda não defini": "Not defined yet",
+    "Quem decide a contratação?*": "Who makes the buying decision?*",
+    "Selecione": "Select",
+    "Eu decido sozinho": "I decide on my own",
+    "Eu decido junto com sócios ou diretoria": "I decide together with partners or the board",
+    "Eu indico, outra pessoa aprova": "I recommend, someone else approves",
+    "Qual o problema que você quer resolver?": "What problem do you want to solve?",
+    "Descreva em poucas linhas o cenário atual...": "Describe your current situation in a few lines...",
+    "Enviar e agendar meu diagnóstico": "Send and book my assessment",
+    "Seus dados são usados apenas para o contato comercial. Retornamos em até 24h úteis.": "Your data is used only for sales contact. We reply within 24 business hours.",
+    "Empresas avaliadas e atendidas em projetos de software sob medida.": "Companies assessed and served on custom software projects.",
+    "30 dias": "30 days",
+    "Prazo médio da primeira versão funcional no ar, com entregas semanais.": "Average time to the first working version live, with weekly deliveries.",
+    "“Saímos de planilhas soltas para um sistema que a operação inteira usa todo dia. Em quatro semanas já estávamos rodando.”": "“We went from scattered spreadsheets to a system the whole operation uses every day. In four weeks we were up and running.”",
+    "Cliente Aura · Operações": "Aura client · Operations",
+    "O que acontece depois do envio": "What happens after you submit",
+    "Retornamos em até 24h úteis pelo WhatsApp.": "We reply within 24 business hours on WhatsApp.",
+    "Call de 15 minutos para entender o escopo.": "A 15-minute call to understand the scope.",
+    "Proposta com prazo e custo fechados.": "A proposal with fixed timeline and cost.",
 
     // ---- Home: sobre (split) ----
     "Sobre Aura": "About Aura",
@@ -141,6 +199,7 @@
     "Ver Portfólio": "View Portfolio",
 
     // ---- Home: serviços ----
+    "Nossos Serviços": "Our Services",
     "Obtenha Serviços de Alta Qualidade": "Get High-Quality Services",
     "Com Clareza, Remotamente.": "With Clarity, Remotely.",
     "Descubra nossa gama de serviços criados para elevar sua marca e impulsionar seu negócio para o próximo nível.": "Discover our range of services crafted to elevate your brand and take your business to the next level.",
@@ -257,6 +316,7 @@
     "Raio-X Fiscal — plataforma web que transforma o CNPJ de uma empresa em um diagnóstico visual de oportunidades fiscais, financeiras e operacionais.": "Raio-X Fiscal — a web platform that turns a company's CNPJ into a visual diagnosis of tax, financial and operational opportunities.",
 
     // ---- Sobre ----
+    "Conheça a Fundo": "Dig Deep About Us",
     "Saiba Mais Sobre a Aura": "Learn More About Aura",
     "Vamos Analisar Em Detalhes!!": "Let's Dive Into the Details!!",
     "A Aura é a sua parceira de tecnologia para construir produtos digitais sob medida. Somos especialistas em desenvolvimento de software e soluções digitais para negócios.": "Aura is your technology partner for building custom digital products. We specialize in software development and digital solutions for businesses.",
@@ -317,6 +377,7 @@
     "Mensagem*": "Message*",
     "Envie agora": "Send now",
     "Telefone": "Phone",
+    "Digite sua mensagem...": "Type your message...",
     "Endereço": "Address",
     "REMOTO": "REMOTE",
     "Atendimento 100% remoto": "100% remote service",
@@ -336,6 +397,7 @@
     "Categoria": "Category",
     "Cliente": "Client",
     "Ver Projeto Online": "View Live Project",
+    "Peça uma Demonstração": "Request a Demo",
     "Plataforma Web": "Web Platform",
     "Plataforma SaaS": "SaaS Platform",
     "Aplicação Web": "Web Application",
@@ -469,3 +531,6 @@
     document.addEventListener("DOMContentLoaded", apply);
   }
 })();
+
+
+
